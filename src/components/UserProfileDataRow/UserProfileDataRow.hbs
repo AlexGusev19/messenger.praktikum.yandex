@@ -1,0 +1,8 @@
+<div class="profile__mail__row">
+    <span>{{rowName}}</span>
+    {{#if changeMode}}
+        <input class="profile__input" type="{{inputType}}" name="{{inputName}}" placeholder="{{inputPlaceholder}}" />
+    {{else}}
+        <span class="profile__mail__row__data">{{rowData}}</span>
+    {{/if}}  
+</div>

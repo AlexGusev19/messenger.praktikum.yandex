@@ -1,51 +1,24 @@
-<a href="#" data-page="menuPage">Назад</a>
 <div class="profile-container">
   <div class="profile__left-side">
-    <a href="#" data-page="menuPage">
-      <img src="/images/left-arrow-button.svg" alt="" />
-    </a>
+    {{> ImageLink imgSrc="/images/left-arrow-button.svg" imgAlt="left arrow" data-page="chat" }}
   </div>
   <div class="profile__main">
+
     <div class="profile__main__container">
-      <div class="profile__main__avatar__container">
-        <div class="profile__main__avatar">
-          <img class="profile__main__avatar" src="/images/user-avatar.svg" alt="" />
-          <h1 class="profile__main__avatar__title">Иван</h1>
-        </div>
-      </div>
+      {{> UserAvatar userName="Иван" imgSrc="/images/user-avatar.svg" imgAlt="user avatar" }}
 
       <div class="profile_data">
-        <div class="profile__mail__row">
-          <span>Почта</span>
-          <span class="profile__mail__row__data">pochta@yandex.ru</span>
-        </div>
-        <div class="profile__mail__row">
-          <span>Логин</span>
-          <span class="profile__mail__row__data">ivanivanov</span>
-        </div>
-        <div class="profile__mail__row">
-          <span>Имя</span>
-          <span class="profile__mail__row__data">Иван</span>
-        </div>
-        <div class="profile__mail__row">
-          <span>Фамилия</span>
-          <span class="profile__mail__row__data">Иванов</span>
-        </div>
-        <div class="profile__mail__row">
-          <span>Имя в чате</span>
-          <span class="profile__mail__row__data">Иван</span>
-        </div>
-        <div class="profile__mail__row">
-          <span>Телефон</span>
-          <span class="profile__mail__row__data">+7 (909) 967 30 30</span>
-        </div>
+        {{#each itemList}}        
+          {{> UserProfileDataRow rowName=this.rowName rowData=this.rowData }}    
+        {{/each}}
       </div>
 
       <div class="profile__main__controls">
-        <a class="link" href="#" data-page="menuPage">Изменить данные</a>
-        <a class="link" href="#" data-page="menuPage">Изменить пароль</a>
-        <a class="link" href="#" data-page="menuPage">Выйти</a>
+        {{> Link class="link" data-page="profileChange" text="Изменить данные" }}
+        {{> Link class="link" data-page="menuPage" text="Изменить пароль" }}
+        {{> Link class="link" data-page="login" text="Выйти" }}
       </div>
+
     </div>
   </div>
 </div>

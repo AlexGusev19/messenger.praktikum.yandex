@@ -1,48 +1,18 @@
-<a href="#" data-page="menuPage">Назад</a>
 <div class="profile-container">
   <div class="profile__left-side">
-    <a href="#" data-page="menuPage">
-      <img src="/images/left-arrow-button.svg" alt="" />
-    </a>
+    {{> ImageLink imgSrc="/images/left-arrow-button.svg" imgAlt="left arrow" data-page="chat" }}
   </div>
   <div class="profile__main">
     <div class="profile__main__container">
-      <div class="profile__main__avatar__container">
-        <div class="profile__main__avatar">
-          <img class="profile__main__avatar" src="/images/user-avatar.svg" alt="" />
-          <h1 class="profile__main__avatar__title">Иван</h1>
-        </div>
-      </div>
-      <form>
-        <div class="profile_data">
-          <div class="profile__mail__row">
-            <span>Почта</span>
-            <input class="profile__input" type="text" name="email" placeholder="pochta@yandex.ru" />
-          </div>
-          <div class="profile__mail__row">
-            <span>Логин</span>
-            <input class="profile__input" type="text" name="display_name" placeholder="ivanivanov" />
-          </div>
-          <div class="profile__mail__row">
-            <span>Имя</span>
-            <span class="profile__mail__row__data">Иван</span>
-            <input class="profile__input" type="text" name="first_name" placeholder="Иван" />
-          </div>
-          <div class="profile__mail__row">
-            <span>Фамилия</span>
-            <span class="profile__mail__row__data">Иванов</span>
-            <input class="profile__input" type="text" name="second_name" placeholder="Иванов" />
-          </div>
-          <div class="profile__mail__row">
-            <span>Имя в чате</span>
-            <input class="profile__input" type="text" name="display_name" placeholder="Иван" />
-          </div>
-          <div class="profile__mail__row">
-            <span>Телефон</span>
-            <input class="profile__input" type="tel" name="phone" placeholder="+7 (909) 967 30 30" />
-          </div>
-        </div>
-        <button class="profile__login__button">Сохранить</button>
+
+      {{> UserAvatar imgSrc="/images/user-avatar.svg" imgAlt="user avatar" }}
+
+      <form  class="profile_data">
+        {{#each itemList}}            
+          {{> UserProfileDataRow inputType=this.inputType inputName=this.inputName inputPlaceholder=this.inputPlaceholder changeMode=this.changeMode}}
+        {{/each}}
+        
+        {{> Button idButton="saveProfileData" class="profile__login__button" text="Сохранить"}}
       </form>
     </div>
   </div>

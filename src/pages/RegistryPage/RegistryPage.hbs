@@ -1,18 +1,15 @@
-<a href="#" data-page="menuPage">Назад</a>
 <div class="registration-page">
     <div class="registration__container">
         <h1 class="registration__title">Регистрация</h1>
-        <form>
-            <input class="registration__input" type="text" placeholder="Почта" name="email" />
-            <input class="registration__input" type="text" placeholder="Логин" name="login" />
-            <input class="registration__input" type="text" placeholder="Имя" name="first_name" />
-            <input class="registration__input" type="text" placeholder="Фамилия" name="second_name" />
-            <input class="registration__input" type="tel" placeholder="Телефон" name="phone" />
-            <input class="registration__input" type="password" placeholder="Пароль" name="password" />
-            <input class="registration__input" type="password" placeholder="Пароль (ещё раз)" name="password" />
+        <form class="registration_form">
+            <div class="login__form__input__container">
+                {{#each inputItems}}
+                    {{> Input type=this.type placeholder=this.placeholder name=this.name }}
+                {{/each}}
+            </div>
 
-            <button class="registration__button">Зарегистрироваться</button>
-            <button class="registration__button white">Войти</button>
+            {{> Button idButton="login_button" text="Зарегистрироваться"}}
+            {{> Link class="login__link" text="Войти" data-page="login"}}
         </form>
     </div>
 </div>

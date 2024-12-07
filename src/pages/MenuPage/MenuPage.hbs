@@ -3,13 +3,11 @@
         <h1 class="menu__title">Menu Page</h1>
         <nav>
             <ul class="menu__list">
-                <li><a href="#" data-page="login">авторизация</a></li>
-                <li><a href="#" data-page="registry">зарегистрироваться</a></li>
-                <li><a href="#" data-page="chat">Чат</a></li>
-                <li><a href="#" data-page="client-error">404</a></li>
-                <li><a href="#" data-page="server-error">500</a></li>
-                <li><a href="#" data-page="profile">профиль</a></li>
-                <li><a href="#" data-page="profileChange">променять профиль</a></li>
+                 {{#each nav}}
+                    <li>
+                        {{> Link data-page=this.page text=this.text }}
+                    </li>
+                {{/each}}
             </ul> 
         </nav>
     </div>
