@@ -21,8 +21,8 @@ export default class App {
         login: Pages.LoginPage,
         registration: Pages.RegistryPage,
         chat: Pages.ChatPage,
-        clientError: Pages.ClientErrorPage,
-        serverError: Pages.ServerErrorPage,
+        clientError: Pages.ErrorPage,
+        serverError: Pages.ErrorPage,
         profile: Pages.UserPage,
         profileChange: Pages.UserPageChange,
       },
@@ -60,8 +60,14 @@ export default class App {
           ],
         },
         chat: {},
-        clientError: {},
-        serverError: {},
+        clientError: {
+          errorStatus: "404",
+          errorMessage: "Не туда попали",
+        },
+        serverError: {
+          errorStatus: "500",
+          errorMessage: "Мы уже фиксим",
+        },
         profile: {
           itemList: [
             { rowName: "Почта", rowData: "pochta@yandex.ru" },
@@ -129,9 +135,9 @@ export default class App {
       appElement,
     } = this;
 
-    const template = Handlebars.compile(pages[currentPage]);  
+    const template = Handlebars.compile(pages[currentPage]);
     appElement.innerHTML = template(pagesData[currentPage]);
-    
+
     this.addEventListeners();
   }
 
