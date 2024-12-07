@@ -1,0 +1,24 @@
+{
+  "name": "messenger.praktikum.yandex",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite build && node server.cjs",
+    "preview": "vite preview"
+  },
+  "author": "Alexandr Gusev",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "postcss-preset-env": "^10.1.1",
+    "vite": "^6.0.2"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "handlebars": "^4.7.8"
+  }
+}
