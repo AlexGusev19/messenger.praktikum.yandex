@@ -3,22 +3,33 @@
     {{> ImageLink imgSrc="/images/left-arrow-button.svg" imgAlt="left arrow" data-page="chat" }}
   </div>
   <div class="profile__main">
-
     <div class="profile__main__container">
-      {{> UserAvatar userName="Иван" imgSrc="/images/user-avatar.svg" imgAlt="user avatar" }}
+      {{> UserAvatar userName=userName imgSrc="/images/user-avatar.svg" imgAlt="user avatar" }}
 
-      <div class="profile_data">
-        {{#each itemList}}        
-          {{> UserProfileDataRow rowName=this.rowName rowData=this.rowData }}    
-        {{/each}}
-      </div>
+      {{#if viewMode}}
+        <div class="profile_data">
+          {{#each itemList}}        
+            {{> UserProfileDataRow rowName=this.rowName rowData=this.rowData }}    
+          {{/each}}
+        </div>
+      {{else}}
+        <form  class="profile_data">
+          {{#each itemList}}            
+            {{> UserProfileDataRow inputType=this.inputType inputName=this.inputName inputPlaceholder=this.inputPlaceholder changeMode=this.changeMode}}
+          {{/each}}
+          
+          {{> Button idButton="saveProfileData" class="profile__login__button" text="Сохранить" data-page="profile"}}
+        </form>
+      {{/if}}     
 
-      <div class="profile__main__controls">
-        {{> Link class="link" data-page="profileChange" text="Изменить данные" }}
-        {{> Link class="link" data-page="menuPage" text="Изменить пароль" }}
-        {{> Link class="link" data-page="login" text="Выйти" }}
-      </div>
-
+      {{#if viewMode}}
+        <div class="profile__main__controls">
+          {{> Link class="link" data-page="profileChange" text="Изменить данные" }}
+          {{> Link class="link" data-page="menuPage" text="Изменить пароль" }}
+          {{> Link class="link" data-page="login" text="Выйти" }}
+        </div>
+      {{/if}}
+      
     </div>
   </div>
 </div>

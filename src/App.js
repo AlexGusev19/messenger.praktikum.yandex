@@ -24,7 +24,7 @@ export default class App {
         clientError: Pages.ErrorPage,
         serverError: Pages.ErrorPage,
         profile: Pages.UserPage,
-        profileChange: Pages.UserPageChange,
+        profileChange: Pages.UserPage,
       },
       pagesData: {
         menuPage: {
@@ -93,6 +93,8 @@ export default class App {
           errorMessage: "Мы уже фиксим",
         },
         profile: {
+          viewMode: true,
+          userName: "Иван",
           itemList: [
             { rowName: "Почта", rowData: "pochta@yandex.ru" },
             { rowName: "Логин", rowData: "ivanivanov" },
