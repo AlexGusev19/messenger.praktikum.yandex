@@ -1,2 +1,2 @@
-import './style.pcss'
-export { default as UserProfileDataRow } from './UserProfileDataRow.hbs?raw';
+import "./style.pcss";
+export { default as UserProfileDataRow } from "./UserProfileDataRow.hbs?raw";
