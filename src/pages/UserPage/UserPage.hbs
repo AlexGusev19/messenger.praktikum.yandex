@@ -12,6 +12,12 @@
             {{> UserProfileDataRow rowName=this.rowName rowData=this.rowData }}    
           {{/each}}
         </div>
+
+        <div class="profile__main__controls">
+          {{> Link class="link" data-page="profileChange" text="Изменить данные" }}
+          {{> Link class="link" data-page="profileChangePassword" text="Изменить пароль" }}
+          {{> Link class="link" data-page="login" text="Выйти" }}
+        </div>
       {{else}}
         <form  class="profile_data">
           {{#each itemList}}            
@@ -20,16 +26,7 @@
           
           {{> Button idButton="saveProfileData" class="profile__login__button" text="Сохранить" data-page="profile"}}
         </form>
-      {{/if}}     
-
-      {{#if viewMode}}
-        <div class="profile__main__controls">
-          {{> Link class="link" data-page="profileChange" text="Изменить данные" }}
-          {{> Link class="link" data-page="menuPage" text="Изменить пароль" }}
-          {{> Link class="link" data-page="login" text="Выйти" }}
-        </div>
-      {{/if}}
-      
+      {{/if}}           
     </div>
   </div>
 </div>

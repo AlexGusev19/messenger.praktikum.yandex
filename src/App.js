@@ -25,6 +25,7 @@ export default class App {
         serverError: Pages.ErrorPage,
         profile: Pages.UserPage,
         profileChange: Pages.UserPage,
+        profileChangePassword: Pages.UserPage,
       },
       pagesData: {
         menuPage: {
@@ -47,12 +48,12 @@ export default class App {
           actions: {
             link: {
               text: "Нет аккаунта?",
-              dataPage: "registration"
+              dataPage: "registration",
             },
             button: {
               id: "login_button",
-              text: 'Войти',
-              dataPage: 'chat',
+              text: "Войти",
+              dataPage: "chat",
             },
           },
         },
@@ -74,12 +75,12 @@ export default class App {
           actions: {
             link: {
               text: "Войти",
-              dataPage: "login"
+              dataPage: "login",
             },
             button: {
               id: "login_button",
-              text: 'Зарегистрироваться',
-              dataPage: 'chat',
+              text: "Зарегистрироваться",
+              dataPage: "chat",
             },
           },
         },
@@ -147,6 +148,31 @@ export default class App {
               inputType: "tel",
               inputName: "phone",
               inputPlaceholder: "+7 (909) 967 30 30",
+            },
+          ],
+        },
+        profileChangePassword: {
+          itemList: [
+            {
+              changeMode: true,
+              rowName: "Старый пароль",
+              inputType: "password",
+              inputName: "oldPassword",
+              inputPlaceholder: "------------------",
+            },
+            {
+              changeMode: true,
+              rowName: "Новый пароль",
+              inputType: "password",
+              inputName: "newPassword",
+              inputPlaceholder: "------------------",
+            },
+            {
+              changeMode: true,
+              rowName: "Повторите новый пароль",
+              inputType: "password",
+              inputName: "newPassword2",
+              inputPlaceholder: "------------------",
             },
           ],
         },
