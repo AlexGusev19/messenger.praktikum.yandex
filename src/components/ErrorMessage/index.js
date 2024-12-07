@@ -1,2 +1,2 @@
-import './style.pcss'
-export { default as ErrorMessage } from './ErrorMessage.hbs?raw';
+import "./style.pcss";
+export { default as ErrorMessage } from "./ErrorMessage.hbs?raw";

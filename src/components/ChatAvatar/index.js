@@ -1,2 +1,2 @@
-import './style.pcss'
-export { default as ChatAvatar } from './ChatAvatar.hbs?raw';
+import "./style.pcss";
+export { default as ChatAvatar } from "./ChatAvatar.hbs?raw";

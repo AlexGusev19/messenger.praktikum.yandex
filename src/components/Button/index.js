@@ -1,2 +1,2 @@
-import './style.pcss'
-export { default as Button } from './Button.hbs?raw';
+import "./style.pcss";
+export { default as Button } from "./Button.hbs?raw";
