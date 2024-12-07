@@ -19,7 +19,7 @@ export default class App {
       pages: {
         menuPage: Pages.MenuPage,
         login: Pages.LoginPage,
-        registration: Pages.RegistryPage,
+        registration: Pages.LoginPage,
         chat: Pages.ChatPage,
         clientError: Pages.ErrorPage,
         serverError: Pages.ErrorPage,
@@ -39,12 +39,25 @@ export default class App {
           ],
         },
         login: {
+          title: "Вход",
           inputItems: [
             { type: "text", placeholder: "Логин", name: "login" },
             { type: "password", placeholder: "Пароль", name: "password" },
           ],
+          actions: {
+            link: {
+              text: "Нет аккаунта?",
+              dataPage: "registration"
+            },
+            button: {
+              id: "login_button",
+              text: 'Войти',
+              dataPage: 'chat',
+            },
+          },
         },
         registration: {
+          title: "Регистрация",
           inputItems: [
             { type: "text", placeholder: "Почта", name: "email" },
             { type: "text", placeholder: "Логин", name: "login" },
@@ -58,6 +71,17 @@ export default class App {
               name: "password2",
             },
           ],
+          actions: {
+            link: {
+              text: "Войти",
+              dataPage: "login"
+            },
+            button: {
+              id: "login_button",
+              text: 'Зарегистрироваться',
+              dataPage: 'chat',
+            },
+          },
         },
         chat: {},
         clientError: {
