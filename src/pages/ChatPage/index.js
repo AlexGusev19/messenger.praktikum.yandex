@@ -1,2 +1,2 @@
-import './chat.pcss';
-export { default as ChatPage } from './ChatPage.hbs?raw';
+import "./chat.pcss";
+export { default as ChatPage } from "./ChatPage.hbs?raw";
