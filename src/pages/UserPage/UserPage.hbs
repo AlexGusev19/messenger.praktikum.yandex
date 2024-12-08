@@ -14,17 +14,19 @@
         </div>
 
         <div class="profile__main__controls">
-          {{> Link class="link" data-page="profileChange" text="Изменить данные" }}
-          {{> Link class="link" data-page="profileChangePassword" text="Изменить пароль" }}
-          {{> Link class="link" data-page="login" text="Выйти" }}
+          {{> Link class="profile__link" data-page="profileChange" text="Изменить данные" }}
+          {{> Link class="profile__link" data-page="profileChangePassword" text="Изменить пароль" }}
+          {{> Link class="profile__link" data-page="login" text="Выйти" }}
         </div>
       {{else}}
         <form  class="profile_data">
           {{#each itemList}}            
             {{> UserProfileDataRow inputType=this.inputType inputName=this.inputName inputPlaceholder=this.inputPlaceholder changeMode=this.changeMode}}
           {{/each}}
-          
-          {{> Button idButton="saveProfileData" class="profile__login__button" text="Сохранить" data-page="profile"}}
+
+          <div class="profile__control">
+            {{> Button idButton="saveProfileData" text="Сохранить" data-page="profile"}}
+          </div>          
         </form>
       {{/if}}           
     </div>

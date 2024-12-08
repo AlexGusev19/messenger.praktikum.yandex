@@ -15,7 +15,7 @@ Handlebars.registerPartial("UserProfileDataRow", Components.UserProfileDataRow);
 export default class App {
   constructor() {
     this.state = {
-      currentPage: "menuPage",
+      currentPage: "profile",
       pages: {
         menuPage: Pages.MenuPage,
         login: Pages.LoginPage,
