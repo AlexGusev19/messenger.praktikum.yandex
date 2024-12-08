@@ -1,4 +1,4 @@
-<div class="container">
+<main class="container">
   <div class="chat__left-side">
     <div class="chat__left-side__header">
       {{> Link class="profile-link" data-page="profile" text="Профиль >" }}
@@ -18,12 +18,12 @@
         {{> ChatAvatar chatName="Вадим" avatarSrc="/images/user-blank-avatar.svg" avatarAlt="chat avatar"}}
         {{> ImageButton idButton="chat-menu" imgSrc="/images/menu-chat.svg" imgAlt="chat menu" }}
       </div>
-      <main class="chat__main__container__content">
+      <div class="chat__main__container__content">
         <span>
           чат, скоро будет:) 
           {{> Link data-page="menuPage" text="Назад" }}
         </span>
-      </main>
+      </div>
       <div class="chat__main__container__footer">
           <form class="chat__main__container__control">
             {{> ImageButton idButton="addFile" imgSrc="/images/add-file.svg" alt="add file" }}
@@ -33,4 +33,4 @@
       </div>
     </div>
   </div>
-</div>
+</main>
