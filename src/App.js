@@ -15,9 +15,9 @@ Handlebars.registerPartial("UserProfileDataRow", Components.UserProfileDataRow);
 export default class App {
   constructor() {
     this.state = {
-      currentPage: "profile",
+      currentPage: "menuPage",
       pages: {
-        menuPage: Pages.MenuPage,
+        menuPage: Pages.LoginPage,
         login: Pages.LoginPage,
         registration: Pages.LoginPage,
         chat: Pages.ChatPage,
@@ -29,6 +29,8 @@ export default class App {
       },
       pagesData: {
         menuPage: {
+          title: 'Menu Page',
+          menuMode: true,
           nav: [
             { text: "авторизация", page: "login" },
             { text: "регистрация", page: "registration" },
@@ -36,7 +38,6 @@ export default class App {
             { text: "404", page: "clientError" },
             { text: "500", page: "serverError" },
             { text: "профиль", page: "profile" },
-            { text: "променять профиль", page: "profileChange" },
           ],
         },
         login: {
