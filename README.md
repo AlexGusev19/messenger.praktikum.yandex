@@ -14,10 +14,6 @@ prod мод: `npm run start`
 
 ## Ссылки
 
-### UI:
-
-https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0-1&node-type=canvas&t=5NbbckirUfHKFsU3-0
-
-### netlify
-
-[netlify](https://deploy-proekt.netlify.app/)
+- [дизайн figma](https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0-1&node-type=canvas&t=5NbbckirUfHKFsU3-0)
+- [деплой netlify](https://deploy-proekt.netlify.app/)
+- при старте приложения открывается заглушка меню с ссылками на все страницы 1 спринта
