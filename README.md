@@ -20,4 +20,4 @@ https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0
 
 ### netlify
 
-https://deploy-proekt.netlify.app/
+[netlify](https://deploy-proekt.netlify.app/)
