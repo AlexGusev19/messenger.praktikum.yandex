@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   flex: 0 0 310px;
-  border-right: 1px solid #eaeaea;
+  border-right: 1px solid var(--line-color);
 }
 
 .chat__left-side__header {
@@ -12,7 +12,7 @@
   text-align: right;
 
   & .profile-link {
-    color: #999999;
+    color: var(--secondary-color);
   }
 }
 .chat__left-side__search {
@@ -20,7 +20,7 @@
   padding: 14px 10px;
 }
 .chat__left-side__search__control {
-  background-color: #efefef;
+  background-color: var(--input-background-color);
   padding-top: 10px;
   padding-bottom: 10px;
   border: none;
@@ -39,8 +39,8 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  color: #999999;
-  border-top: 1px solid #eaeaea;
+  color: var(--secondary-color);
+  border-top: 1px solid var(--line-color);
   width: 290px;
   height: 100%;
 }
@@ -61,7 +61,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid var(--line-color);
 }
 
 .chat__main__container__content {
@@ -70,13 +70,13 @@
   justify-content: center;
   flex: 1;
   align-items: center;
-  color: #999999;
+  color: var(--secondary-color);
 }
 
 .chat__main__container__control {
   display: flex;
   align-items: center;
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid var(--line-color);
 }
 
 .chat__input {
@@ -85,10 +85,10 @@
   height: 32px;
   border-radius: 16px;
   border: none;
-  background-color: #efefef;
+  background-color: var(--input-background-color);
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
-  color: #999999;
+  color: var(--secondary-color);
   outline: none;
 }
