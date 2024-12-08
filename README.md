@@ -6,6 +6,8 @@
 
 установить зависимости проекта: `npm install`
 
+собрать проект: `npm run build`
+
 dev мод: `npm run dev`
 
 prod мод: `npm run start`
