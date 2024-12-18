@@ -15,7 +15,7 @@ Handlebars.registerPartial("UserProfileDataRow", Components.UserProfileDataRow);
 export default class App {
   constructor() {
     this.state = {
-      currentPage: "menuPage",
+      currentPage: "chat",
       pages: {
         menuPage: Pages.LoginPage,
         login: Pages.LoginPage,
@@ -29,7 +29,7 @@ export default class App {
       },
       pagesData: {
         menuPage: {
-          title: 'Menu Page',
+          title: "Menu Page",
           menuMode: true,
           nav: [
             { text: "авторизация", page: "login" },
@@ -43,8 +43,18 @@ export default class App {
         login: {
           title: "Вход",
           inputItems: [
-            { type: "text", placeholder: "Логин", name: "login" },
-            { type: "password", placeholder: "Пароль", name: "password" },
+            {
+              type: "text",
+              placeholder: "Логин",
+              name: "login",
+              errorMessage: "Неверный логин",
+            },
+            {
+              type: "password",
+              placeholder: "Пароль",
+              name: "password",
+              errorMessage: "Неверный пароль",
+            },
           ],
           actions: {
             link: {

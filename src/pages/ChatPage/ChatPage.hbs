@@ -8,7 +8,25 @@
     </div>
     <div class="chat__left-side__footer">
       <div class="chat__left-side__chat-list">
-        Список чатов
+
+        <div class="chat-card">
+          <img src="/images/chat-avatar.svg" alt="chat avatar">
+          <div class="chat-card__right-side">
+            <div class="chat-card__header">
+              <span class="chat-card__title">Андрей</span>
+              <span class="chat-card__date">10:49</span>
+            </div>
+            <div class="chat-card__content">
+              <div class="chat-card__short-text">
+                Так увлёкся работой по курсу, что совсем забыл его анонсир...
+              </div>
+              <div class="chat-card__badge">
+                <div class="badge">2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -18,12 +36,33 @@
         {{> ChatAvatar chatName="Вадим" avatarSrc="/images/user-blank-avatar.svg" avatarAlt="chat avatar"}}
         {{> ImageButton idButton="chat-menu" imgSrc="/images/menu-chat.svg" imgAlt="chat menu" }}
       </div>
+
       <div class="chat__main__container__content">
-        <span>
-          чат, скоро будет:) 
-          {{> Link data-page="menuPage" text="Назад" }}
-        </span>
+        <div class="chat__header">
+          17 декабря
+        </div>
+        <div class="chat__income-message">
+          <div class="chat__income-message__text">
+            <p>Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.</p>
+            <br>
+            <p>Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000 евро.</p>          
+            <div class="chat__income-message__date">11:56</div>  
+          </div>
+          <div class="chat__income-message__img">
+            <img src="/images/Снимок экрана 2020-06-21 в 19.18 1.svg" alt="Снимок экрана">
+          </div>
+        </div>
+        <div class="chat__outcome-message">
+          <div class="chat__outcome-message__text">
+            <div class="message-text">Круто!</div>
+            <div class="message-status">
+              <img src="/images/message-status.svg" alt="message status">
+            </div>
+            <div class="message-date">12:00</div>
+          </div>
+        </div>  
       </div>
+
       <div class="chat__main__container__footer">
           <form class="chat__main__container__control">
             {{> ImageButton idButton="addFile" imgSrc="/images/add-file.svg" alt="add file" }}

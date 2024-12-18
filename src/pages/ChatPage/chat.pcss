@@ -36,13 +36,69 @@
 
 .chat__left-side__chat-list {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   margin: 0 auto;
   color: var(--secondary-color);
   border-top: 1px solid var(--line-color);
   width: 290px;
   height: 100%;
+}
+
+.chat-card {
+  display: flex;
+  border-bottom: 1px solid var(--line-color);
+  padding: 12px 0px;
+  gap: 15px;
+
+  & .chat-card__right-side {
+    flex-grow: 1;
+  }
+
+  & .chat-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+
+    & .chat-card__title {
+      color: var(--text-color);
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    & .chat-card__date {
+      font-size: 9px;
+    }
+  }
+
+  & .chat-card__content {
+    display: flex;
+    justify-content: space-between;
+
+    & .chat-card__short-text {
+      font-size: 12px;
+      width: 193px;
+      height: 30px;
+    }
+
+    & .chat-card__badge {
+      display: flex;
+      align-items: end;
+
+      & .badge {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--background-color);
+        background-color: var(--primary-color);
+        border-radius: 10px;
+        font-size: 11px;
+      }
+    }
+  }
+
 }
 
 .chat__main {
@@ -66,11 +122,75 @@
 
 .chat__main__container__content {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   flex: 1;
-  align-items: center;
   color: var(--secondary-color);
+  
+  & .chat__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 48px;
+    margin-bottom: 30px;
+    font-size: 12px;
+  }
+
+  & .chat__income-message {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+
+    & .chat__income-message__text {
+      padding: 11px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-color);
+      width: 402px;
+      background-color: var(--income-message);
+
+      & .chat__income-message__date {
+        color: var(--secondary-color);
+        font-size: 9px;
+        text-align: right;
+      }
+    }
+  }
+  & .chat__outcome-message {
+    display: flex;
+    justify-content: end;
+    padding-top: 30px;
+    padding-bottom: 30px;
+
+    & .chat__outcome-message__text {
+      display: flex;
+      padding: 11px;
+      width: fit-content;
+      background-color: var(--outcome-message);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-bottom-left-radius: 10px;
+
+      & .message-text {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-right: 14px;
+      }
+
+      & .message-status {
+        margin-right: 4px;
+      }
+
+      & .message-date {
+        display: flex;
+        align-items: end;
+        font-size: 9px;
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+    }
+  }
 }
 
 .chat__main__container__control {
