@@ -1,6 +1,9 @@
 import Handlebars from "handlebars";
 import * as Pages from "./pages";
-import * as Components from "./components";
+import * as Components from "./components";;
+import { LoginPage } from "./pages/LoginPage";;
+import { ErrorPage } from "./pages/ErrorPage";
+import { UserPage } from "./pages/UserPage";
 
 Handlebars.registerPartial("Link", Components.Link);
 Handlebars.registerPartial("Button", Components.Button);
@@ -12,10 +15,20 @@ Handlebars.registerPartial("ImageLink", Components.ImageLink);
 Handlebars.registerPartial("UserAvatar", Components.UserAvatar);
 Handlebars.registerPartial("UserProfileDataRow", Components.UserProfileDataRow);
 
+const PagesList = {
+  Menu: "menuPage",
+  Login: "login",
+  Registration: "registration",
+  Chat: "chat",
+  ClientError: "clientError",
+  ServerError: "serverError",
+  Profile: "profile",
+};
+
 export default class App {
   constructor() {
     this.state = {
-      currentPage: "chat",
+      currentPage: PagesList.Login,
       pages: {
         menuPage: Pages.LoginPage,
         login: Pages.LoginPage,
@@ -44,56 +57,95 @@ export default class App {
           title: "Вход",
           inputItems: [
             {
+              className: "input",
               type: "text",
               placeholder: "Логин",
               name: "login",
               errorMessage: "Неверный логин",
             },
             {
+              className: "input",
               type: "password",
               placeholder: "Пароль",
               name: "password",
               errorMessage: "Неверный пароль",
             },
           ],
-          actions: {
-            link: {
-              text: "Нет аккаунта?",
-              dataPage: "registration",
-            },
-            button: {
+          actions: [
+            {
+              componentType: "button",
               id: "login_button",
               text: "Войти",
               dataPage: "chat",
             },
-          },
+            {
+              componentType: "link",
+              className: "login__link",
+              text: "Нет аккаунта?",
+              dataPage: "registration",
+            },
+          ],
         },
         registration: {
           title: "Регистрация",
           inputItems: [
-            { type: "text", placeholder: "Почта", name: "email" },
-            { type: "text", placeholder: "Логин", name: "login" },
-            { type: "text", placeholder: "Имя", name: "first_name" },
-            { type: "text", placeholder: "Фамилия", name: "second_name" },
-            { type: "tel", placeholder: "Телефон", name: "phone" },
-            { type: "password", placeholder: "Пароль", name: "password" },
             {
+              className: "input",
+              type: "text",
+              placeholder: "Почта",
+              name: "email",
+            },
+            {
+              className: "input",
+              type: "text",
+              placeholder: "Логин",
+              name: "login",
+            },
+            {
+              className: "input",
+              type: "text",
+              placeholder: "Имя",
+              name: "first_name",
+            },
+            {
+              className: "input",
+              type: "text",
+              placeholder: "Фамилия",
+              name: "second_name",
+            },
+            {
+              className: "input",
+              type: "tel",
+              placeholder: "Телефон",
+              name: "phone",
+            },
+            {
+              className: "input",
+              type: "password",
+              placeholder: "Пароль",
+              name: "password",
+            },
+            {
+              className: "input",
               type: "password",
               placeholder: "Пароль (ещё раз)",
               name: "password2",
             },
           ],
-          actions: {
-            link: {
-              text: "Войти",
-              dataPage: "login",
-            },
-            button: {
+          actions: [
+            {
+              componentType: "button",
               id: "login_button",
               text: "Зарегистрироваться",
               dataPage: "chat",
             },
-          },
+            {
+              componentType: "link",
+              className: "login__link",
+              text: "Войти",
+              dataPage: "login",
+            },
+          ],
         },
         chat: {},
         clientError: {
@@ -114,6 +166,26 @@ export default class App {
             { rowName: "Фамилия", rowData: "Иванов" },
             { rowName: "Имя в чате", rowData: "Иван" },
             { rowName: "Телефон", rowData: "+7 (909) 967 30 30" },
+          ],
+          actions: [
+            {
+              componentType: "link",
+              className: "profile__link",
+              text: "Изменить данные",
+              dataPage: "profileChange",
+            },
+            {
+              componentType: "link",
+              className: "profile__link",
+              text: "Изменить пароль",
+              dataPage: "profileChangePassword",
+            },
+            {
+              componentType: "link",
+              className: "profile__link",
+              text: "Выйти",
+              dataPage: "login",
+            },
           ],
         },
         profileChange: {
@@ -193,13 +265,22 @@ export default class App {
   }
 
   render() {
-    const {
-      state: { pages, currentPage, pagesData },
-      appElement,
-    } = this;
+    const loginPage = new LoginPage(this.state.pagesData.registration);
+    const errorPage = new ErrorPage(this.state.pagesData.serverError);
+    const userPage = new UserPage(this.state.pagesData.profile);
+    console.log(userPage.getContent());
 
-    const template = Handlebars.compile(pages[currentPage]);
-    appElement.innerHTML = template(pagesData[currentPage]);
+    if (this.appElement) {
+      this.appElement.replaceWith(userPage.getContent());
+    }
+
+    // const {
+    //   state: { pages, currentPage, pagesData },
+    //   appElement,
+    // } = this;
+
+    // const template = Handlebars.compile(pages[currentPage]);
+    // appElement.innerHTML = template(pagesData[currentPage]);
 
     this.addEventListeners();
   }
