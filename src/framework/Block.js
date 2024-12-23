@@ -17,7 +17,6 @@ export default class Block {
     const eventBus = new EventBus();
     const { props, children, lists } =
       this._getChildrenPropsAndLists(propsWithChildren);
-    console.log({ propsWithChildren });
     this.props = this._makePropsProxy({ ...props });
     this.children = children;
     this.lists = this._makePropsProxy({ ...lists });
@@ -34,12 +33,10 @@ export default class Block {
   }
 
   init() {
-    console.log(Block.EVENTS.FLOW_RENDER);
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   _componentDidMount() {
-    console.log(Block.EVENTS.FLOW_CDM);
     this.componentDidMount();
     Object.values(this.children).forEach((child) => {
       child.dispatchComponentDidMount();
@@ -47,7 +44,6 @@ export default class Block {
   }
 
   _componentDidUpdate(oldProps, newProps) {
-    console.log(Block.EVENTS.FLOW_CDU);
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -57,7 +53,6 @@ export default class Block {
 
   _render() {
     const propsAndStubs = { ...this.props };
-    console.log("Block Render", { propsAndStubs });
     const tmpId = Math.floor(100000 + Math.random() * 900000);
 
     this._removeEvents();
@@ -100,7 +95,6 @@ export default class Block {
     if (this._element && newElement) {
       this._element.replaceWith(newElement);
     }
-    console.log("listCont", { fragment: fragment.content });
 
     this._element = newElement;
     this._addEvents();
@@ -109,7 +103,6 @@ export default class Block {
 
   _addEvents() {
     const { events = {} } = this.props;
-    console.log({ events });
     Object.keys(events).forEach((eventName) => {
       if (this._element) {
         this._element.addEventListener(eventName, events[eventName]);
@@ -119,7 +112,6 @@ export default class Block {
 
   _removeEvents() {
     const { events = {} } = this.props;
-    console.log({ events });
     Object.keys(events).forEach((eventName) => {
       if (this._element) {
         this._element.removeEventListener(eventName, events[eventName]);

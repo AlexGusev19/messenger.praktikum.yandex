@@ -10,20 +10,7 @@ const PagesList = {
   Profile: "profile",
 };
 
-const validationRules = {
-  first_name: /^[A-ZА-Я]{1}[-A-Za-zА-Яа-я]{2,}$/,
-  second_name: /^[A-ZА-Я]{1}[-A-Za-zА-Яа-я]{2,}$/,
-  login: /^[\w\d_-]{3,20}$/,
-  display_name: /^[\wА-Яа-я\d_-]{3,20}$/,
-  email: /^[\w_-]+@[\w]+[.]{1}[\w]+$/,
-  phone: /^[+]*[\d]{10,15}$/,
-  password: /^[\w\d]{8,40}$/,
-  password2: /^[\w\d]{8,40}$/,
-  newPassword: /^[\w\d]{8,40}$/,
-  newPassword2: /^[\w\d]{8,40}$/,
-  oldPassword: /^[\w\d]{8,40}$/,
-  message: /^.+$/,
-};
+
 
 export default class App {
   constructor() {
@@ -339,11 +326,11 @@ export default class App {
       const elementsList = document.querySelectorAll(elementType);
 
       elementsList.forEach((selectedElement) => {
-        if (elementType === "form") {          
+        if (elementType === "form") {
           for (let formControl of selectedElement.elements) {
             if (formControl.nodeName === "INPUT") {
               formControl.addEventListener("blur", () => {
-                validateElement(formControl);
+                this.validateElement(formControl);
               });
             }
           }
@@ -354,22 +341,21 @@ export default class App {
 
             for (let formControl of selectedElement.elements) {
               if (formControl.nodeName === "INPUT") {
-                if (!validateElement(formControl) && isFormValid) {
+                if (!this.validateElement(formControl) && isFormValid) {
                   isFormValid = false;
                 }
               }
             }
 
             if (isFormValid) {
-              getFormDataToConsole(element);
-              element.reset();
+              this.getFormDataToConsole(selectedElement);
+              selectedElement.reset();
             } else {
               console.log("Форма не валидна.");
             }
           });
-          
         } else if (elementType === "a") {
-            selectedElement.addEventListener("click", (event) => {
+          selectedElement.addEventListener("click", (event) => {
             event.preventDefault();
 
             if (event.target.dataset.page) {
@@ -380,23 +366,37 @@ export default class App {
       });
     }
   }
-}
 
-export function getFormDataToConsole(form) {
-  const formValue = new FormData(form);
-  const result = {};
+  getFormDataToConsole(form) {
+    const formValue = new FormData(form);
+    const result = {};
 
-  for (let [key, value] of formValue) {
-    result[key] = value;
+    for (let [key, value] of formValue) {
+      result[key] = value;
+    }
+
+    console.log({ ...result });
   }
 
-  console.log({ ...result });
-}
+  validateElement(element) {
+    const validationRules = {
+      first_name: /^[A-ZА-Я]{1}[-A-Za-zА-Яа-я]{2,}$/,
+      second_name: /^[A-ZА-Я]{1}[-A-Za-zА-Яа-я]{2,}$/,
+      login: /^[\w\d_-]{3,20}$/,
+      display_name: /^[\wА-Яа-я\d_-]{3,20}$/,
+      email: /^[\w_-]+@[\w]+[.]{1}[\w]+$/,
+      phone: /^[+]*[\d]{10,15}$/,
+      password: /^[\w\d]{8,40}$/,
+      password2: /^[\w\d]{8,40}$/,
+      newPassword: /^[\w\d]{8,40}$/,
+      newPassword2: /^[\w\d]{8,40}$/,
+      oldPassword: /^[\w\d]{8,40}$/,
+      message: /^.+$/,
+    };
+    const checkValidation = validationRules[element.name].test(element.value);
+    const errorSpan = document.querySelector(`[data-for=${element.name}]`);
+    errorSpan.style.display = checkValidation ? "none" : "block";
 
-export function validateElement(element) {
-  const checkValidation = validationRules[element.name].test(element.value);
-  const errorSpan = document.querySelector(`[data-for=${element.name}]`);
-  errorSpan.style.display = checkValidation ? "none" : "block";
-
-  return checkValidation;
+    return checkValidation;
+  }
 }
