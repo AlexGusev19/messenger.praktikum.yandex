@@ -1,71 +1,59 @@
 import "./profile.pcss";
 import Block from "../../framework/Block";
-import { Button } from "../../components/Button";
-import { Link } from "../../components/Link";
-import { ImageLink } from "../../components/ImageLink";
-import { UserAvatar } from "../../components/UserAvatar";
-import { UserProfileDataRow } from "../../components/UserProfileDataRow";
+import * as Components from "./../../components";
 
 export class UserPage extends Block {
   constructor(props) {
-    console.log("UserPage", props);
     super({
-      ImageLinkComponent: new ImageLink({
+      viewMode: props.viewMode,
+      ImageLinkComponent: new Components.ImageLink({
         imgSrc: "/images/left-arrow-button.svg",
         imgAlt: "left arrow",
         dataPage: "chat",
       }),
-      UserAvatarComponent: new UserAvatar({
+      UserAvatarComponent: new Components.UserAvatar({
         userName: props.userName,
         imgSrc: "/images/user-avatar.svg",
         imgAlt: "user avatar",
       }),
-      title: props.title,
       rowList: props.itemList.map(
-        (row) =>
-          new UserProfileDataRow({
-            rowName: row.rowName,
-            rowData: row.rowData,
-          })
+        (row) => new Components.UserProfileDataRow({ ...row })
       ),
       actionsList: props.actions.map((item) => {
         if (item.componentType === "link") {
-          return new Link({
-            dataPage: item.dataPage,
-            text: item.text,
-            className: item.className,
-          });
+          return new Components.Link({ ...item });
         } else if (item.componentType === "button") {
-          return new Button({
-            idButton: item.idButton,
-            dataPage: item.dataPage,
-            text: item.text,
-          });
+          return new Components.Button({ ...item });
         }
       }),
     });
   }
 
   render() {
-    return `<div class="app">
-                <main class="container">
-                    <div class="profile__left-side">
-                        {{{ImageLinkComponent}}}
-                    </div>
-                    <div class="profile__main">
-                        <div class="profile__main__container">
-                            {{{UserAvatarComponent}}}
+    const content = this.props.viewMode
+      ? `<div class="profile_data">             
+            {{{rowList}}}
+          </div>
+          <div class="profile__main__controls">
+            {{{actionsList}}}
+          </div>`
+      : `<form  class="profile_data">        
+            {{{rowList}}}
+          <div class="profile__control">
+            {{{actionsList}}}
+          </div>          
+        </form>`;
 
-                            <div class="profile_data">             
-                                {{{rowList}}}
-                            </div>
-
-                            <div class="profile__main__controls">
-                                {{{actionsList}}}
-                            </div>         
-                        </div>
-                    </div>
-                </main>
-            </div>`;
+    return `<main class="container">
+              <div class="profile__left-side">
+                {{{ImageLinkComponent}}}
+              </div>  
+              <div class="profile__main">
+                <div class="profile__main__container">
+                  {{{UserAvatarComponent}}}
+                  ${content}     
+                </div>
+              </div>
+            </main>`;
   }
 }

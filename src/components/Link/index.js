@@ -3,10 +3,7 @@ import Block from "../../framework/Block";
 
 export class Link extends Block {
   constructor(props) {
-    console.log("Link", props);
-    super({
-        ...props,
-    });
+    super({ ...props });
   }
 
   render() {

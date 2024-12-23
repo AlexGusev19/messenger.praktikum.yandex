@@ -3,7 +3,6 @@ import Block from "../../framework/Block";
 
 export class Button extends Block {
   constructor(props) {
-    console.log("Button", props);
     super({
         ...props,
     });

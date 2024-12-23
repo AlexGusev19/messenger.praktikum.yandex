@@ -14,25 +14,16 @@ export default class Block {
   _id = Math.floor(100000 + Math.random() * 900000);
 
   constructor(propsWithChildren = {}) {
-    
     const eventBus = new EventBus();
-    const { props, children, lists } = this._getChildrenPropsAndProps(propsWithChildren);
-    console.log({ propsWithChildren }, { props, children, lists });
+    const { props, children, lists } =
+      this._getChildrenPropsAndLists(propsWithChildren);
+    console.log({ propsWithChildren });
     this.props = this._makePropsProxy({ ...props });
     this.children = children;
     this.lists = this._makePropsProxy({ ...lists });
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
-  }
-
-  _addEvents() {
-    const { events = {} } = this.props;
-    Object.keys(events).forEach((eventName) => {
-      if (this._element) {
-        this._element.addEventListener(eventName, events[eventName]);
-      }
-    });
   }
 
   _registerEvents(eventBus) {
@@ -43,23 +34,20 @@ export default class Block {
   }
 
   init() {
+    console.log(Block.EVENTS.FLOW_RENDER);
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
   _componentDidMount() {
+    console.log(Block.EVENTS.FLOW_CDM);
     this.componentDidMount();
     Object.values(this.children).forEach((child) => {
       child.dispatchComponentDidMount();
     });
   }
 
-  componentDidMount() {}
-
-  dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-  }
-
   _componentDidUpdate(oldProps, newProps) {
+    console.log(Block.EVENTS.FLOW_CDU);
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -67,73 +55,13 @@ export default class Block {
     this._render();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  componentDidUpdate(oldProps, newProps) {
-    console.log(oldProps, newProps);
-    return true;
-  }
-
-  _getChildrenPropsAndProps(propsAndChildren) {
-    const children = {};
-    const props = {};
-    const lists = {};
-
-    Object.entries(propsAndChildren).forEach(([key, value]) => {
-      if (value instanceof Block) {
-        children[key] = value;
-      } else if (Array.isArray(value)) {
-        lists[key] = value;
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        props[key] = value;
-      }
-    });
-
-    return { children, props, lists };
-  }
-
-  addAttributes() {
-    const { attr = {} } = this.props;
-
-    Object.entries(attr).forEach(([key, value]) => {
-      if (this._element) {
-        this._element.setAttribute(key, value);
-      }
-    });
-  }
-
-  setAttributes(attr) {
-    Object.entries(attr).forEach(([key, value]) => {
-      if (this._element) {
-        this._element.setAttribute(key, value);
-      }
-    });
-  }
-
-  setProps = (nextProps) => {
-    if (!nextProps) {
-      return;
-    }
-
-    Object.assign(this.props, nextProps);
-  };
-
-  setLists = (nextList) => {
-    if (!nextList) {
-      return;
-    }
-
-    Object.assign(this.lists, nextList);
-  };
-
-  get element() {
-    return this._element;
-  }
-
   _render() {
-    console.log("Render");
     const propsAndStubs = { ...this.props };
+    console.log("Block Render", { propsAndStubs });
     const tmpId = Math.floor(100000 + Math.random() * 900000);
+
+    this._removeEvents();
+    
     Object.entries(this.children).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
@@ -168,12 +96,96 @@ export default class Block {
     });
 
     const newElement = fragment.content.firstElementChild;
+
     if (this._element && newElement) {
       this._element.replaceWith(newElement);
     }
+    console.log("listCont", { fragment: fragment.content });
+
     this._element = newElement;
     this._addEvents();
     this.addAttributes();
+  }
+
+  _addEvents() {
+    const { events = {} } = this.props;
+    console.log({ events });
+    Object.keys(events).forEach((eventName) => {
+      if (this._element) {
+        this._element.addEventListener(eventName, events[eventName]);
+      }
+    });
+  }
+
+  _removeEvents() {
+    const { events = {} } = this.props;
+    console.log({ events });
+    Object.keys(events).forEach((eventName) => {
+      if (this._element) {
+        this._element.removeEventListener(eventName, events[eventName]);
+      }
+    });
+  }
+
+  addAttributes() {
+    const { attr = {} } = this.props;
+
+    Object.entries(attr).forEach(([key, value]) => {
+      if (this._element) {
+        this._element.setAttribute(key, value);
+      }
+    });
+  }
+
+  componentDidMount() {}
+
+  dispatchComponentDidMount() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  componentDidUpdate(oldProps, newProps) {
+    console.log(oldProps, newProps);
+    return true;
+  }
+
+  _getChildrenPropsAndLists(propsAndChildren) {
+    const children = {};
+    const props = {};
+    const lists = {};
+
+    Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (value instanceof Block) {
+        children[key] = value;
+      } else if (Array.isArray(value)) {
+        lists[key] = value;
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        props[key] = value;
+      }
+    });
+
+    return { children, props, lists };
+  }
+
+  setProps = (nextProps) => {
+    if (!nextProps) {
+      return;
+    }
+
+    Object.assign(this.props, nextProps);
+  };
+
+  setLists = (nextList) => {
+    if (!nextList) {
+      return;
+    }
+
+    Object.assign(this.lists, nextList);
+  };
+
+  get element() {
+    return this._element;
   }
 
   render() {

@@ -3,7 +3,6 @@ import Block from "../../framework/Block";
 
 export class ImageLink extends Block {
   constructor(props) {
-    console.log("ImageLink", props);
     super({
       ...props,
     });

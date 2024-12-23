@@ -1,19 +1,4 @@
-import Handlebars from "handlebars";
 import * as Pages from "./pages";
-import * as Components from "./components";;
-import { LoginPage } from "./pages/LoginPage";;
-import { ErrorPage } from "./pages/ErrorPage";
-import { UserPage } from "./pages/UserPage";
-
-Handlebars.registerPartial("Link", Components.Link);
-Handlebars.registerPartial("Button", Components.Button);
-Handlebars.registerPartial("ImageButton", Components.ImageButton);
-Handlebars.registerPartial("Input", Components.Input);
-Handlebars.registerPartial("ChatAvatar", Components.ChatAvatar);
-Handlebars.registerPartial("ErrorMessage", Components.ErrorMessage);
-Handlebars.registerPartial("ImageLink", Components.ImageLink);
-Handlebars.registerPartial("UserAvatar", Components.UserAvatar);
-Handlebars.registerPartial("UserProfileDataRow", Components.UserProfileDataRow);
 
 const PagesList = {
   Menu: "menuPage",
@@ -25,11 +10,26 @@ const PagesList = {
   Profile: "profile",
 };
 
+const validationRules = {
+  first_name: /^[A-ZА-Я]{1}[-A-Za-zА-Яа-я]{2,}$/,
+  second_name: /^[A-ZА-Я]{1}[-A-Za-zА-Яа-я]{2,}$/,
+  login: /^[\w\d_-]{3,20}$/,
+  display_name: /^[\wА-Яа-я\d_-]{3,20}$/,
+  email: /^[\w_-]+@[\w]+[.]{1}[\w]+$/,
+  phone: /^[+]*[\d]{10,15}$/,
+  password: /^[\w\d]{8,40}$/,
+  password2: /^[\w\d]{8,40}$/,
+  newPassword: /^[\w\d]{8,40}$/,
+  newPassword2: /^[\w\d]{8,40}$/,
+  oldPassword: /^[\w\d]{8,40}$/,
+  message: /^.+$/,
+};
+
 export default class App {
   constructor() {
     this.state = {
-      currentPage: PagesList.Login,
-      pages: {
+      currentPage: PagesList.Menu,
+      pageClass: {
         menuPage: Pages.LoginPage,
         login: Pages.LoginPage,
         registration: Pages.LoginPage,
@@ -44,13 +44,43 @@ export default class App {
         menuPage: {
           title: "Menu Page",
           menuMode: true,
-          nav: [
-            { text: "авторизация", page: "login" },
-            { text: "регистрация", page: "registration" },
-            { text: "чат", page: "chat" },
-            { text: "404", page: "clientError" },
-            { text: "500", page: "serverError" },
-            { text: "профиль", page: "profile" },
+          actions: [
+            {
+              componentType: "link",
+              className: "link",
+              text: "авторизация",
+              dataPage: "login",
+            },
+            {
+              componentType: "link",
+              className: "link",
+              text: "регистрация",
+              dataPage: "registration",
+            },
+            {
+              componentType: "link",
+              className: "link",
+              text: "чат",
+              dataPage: "chat",
+            },
+            {
+              componentType: "link",
+              className: "link",
+              text: "404",
+              dataPage: "clientError",
+            },
+            {
+              componentType: "link",
+              className: "link",
+              text: "500",
+              dataPage: "serverError",
+            },
+            {
+              componentType: "link",
+              className: "link",
+              text: "профиль",
+              dataPage: "profile",
+            },
           ],
         },
         login: {
@@ -61,14 +91,12 @@ export default class App {
               type: "text",
               placeholder: "Логин",
               name: "login",
-              errorMessage: "Неверный логин",
             },
             {
               className: "input",
               type: "password",
               placeholder: "Пароль",
               name: "password",
-              errorMessage: "Неверный пароль",
             },
           ],
           actions: [
@@ -201,7 +229,7 @@ export default class App {
               changeMode: true,
               rowName: "Логин",
               inputType: "text",
-              inputName: "display_name",
+              inputName: "login",
               inputPlaceholder: "ivanivanov",
             },
             {
@@ -233,6 +261,14 @@ export default class App {
               inputPlaceholder: "+7 (909) 967 30 30",
             },
           ],
+          actions: [
+            {
+              componentType: "button",
+              id: "saveProfileData",
+              text: "Сохранить",
+              dataPage: "profile",
+            },
+          ],
         },
         profileChangePassword: {
           itemList: [
@@ -258,6 +294,14 @@ export default class App {
               inputPlaceholder: "------------------",
             },
           ],
+          actions: [
+            {
+              componentType: "button",
+              id: "saveProfileData",
+              text: "Сохранить",
+              dataPage: "profile",
+            },
+          ],
         },
       },
     };
@@ -265,22 +309,21 @@ export default class App {
   }
 
   render() {
-    const loginPage = new LoginPage(this.state.pagesData.registration);
-    const errorPage = new ErrorPage(this.state.pagesData.serverError);
-    const userPage = new UserPage(this.state.pagesData.profile);
-    console.log(userPage.getContent());
+    const {
+      state: { pageClass, currentPage, pagesData },
+      appElement,
+    } = this;
 
-    if (this.appElement) {
-      this.appElement.replaceWith(userPage.getContent());
+    const template = document.createElement("template");
+
+    if (appElement.firstChild) {
+      appElement.firstChild.replaceWith(template);
+    } else {
+      appElement.appendChild(template);
     }
 
-    // const {
-    //   state: { pages, currentPage, pagesData },
-    //   appElement,
-    // } = this;
-
-    // const template = Handlebars.compile(pages[currentPage]);
-    // appElement.innerHTML = template(pagesData[currentPage]);
+    const PageComponent = new pageClass[currentPage](pagesData[currentPage]);
+    template.replaceWith(PageComponent.getContent());
 
     this.addEventListeners();
   }
@@ -291,19 +334,69 @@ export default class App {
   }
 
   addEventListeners() {
-    const selectElementType = ["a", "button"];
+    const selectElementType = ["a", "form"];
     for (let elementType of selectElementType) {
-      const elements = document.querySelectorAll(elementType);
+      const elementsList = document.querySelectorAll(elementType);
 
-      elements.forEach((element) => {
-        element.addEventListener("click", (e) => {
-          e.preventDefault();
-
-          if (e.target.dataset.page) {
-            this.changePage(e.target.dataset.page);
+      elementsList.forEach((selectedElement) => {
+        if (elementType === "form") {          
+          for (let formControl of selectedElement.elements) {
+            if (formControl.nodeName === "INPUT") {
+              formControl.addEventListener("blur", () => {
+                validateElement(formControl);
+              });
+            }
           }
-        });
+
+          selectedElement.addEventListener("submit", (event) => {
+            event.preventDefault();
+            let isFormValid = true;
+
+            for (let formControl of selectedElement.elements) {
+              if (formControl.nodeName === "INPUT") {
+                if (!validateElement(formControl) && isFormValid) {
+                  isFormValid = false;
+                }
+              }
+            }
+
+            if (isFormValid) {
+              getFormDataToConsole(element);
+              element.reset();
+            } else {
+              console.log("Форма не валидна.");
+            }
+          });
+          
+        } else if (elementType === "a") {
+            selectedElement.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            if (event.target.dataset.page) {
+              this.changePage(event.target.dataset.page);
+            }
+          });
+        }
       });
     }
   }
+}
+
+export function getFormDataToConsole(form) {
+  const formValue = new FormData(form);
+  const result = {};
+
+  for (let [key, value] of formValue) {
+    result[key] = value;
+  }
+
+  console.log({ ...result });
+}
+
+export function validateElement(element) {
+  const checkValidation = validationRules[element.name].test(element.value);
+  const errorSpan = document.querySelector(`[data-for=${element.name}]`);
+  errorSpan.style.display = checkValidation ? "none" : "block";
+
+  return checkValidation;
 }

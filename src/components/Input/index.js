@@ -3,7 +3,6 @@ import Block from "../../framework/Block";
 
 export class Input extends Block {
   constructor(props) {
-    console.log("Input", props);
     super({
         ...props,
     });
@@ -11,13 +10,15 @@ export class Input extends Block {
 
   render() {
     return `
+      <div class="input__container">
         <input 
-            class="{{className}}"
-            type="{{type}}" 
-            placeholder="{{placeholder}}" 
-            name="{{name}}" 
+          class="{{className}}"
+          type="{{type}}" 
+          placeholder="{{placeholder}}" 
+          name="{{name}}" 
         />
-        <span class="error-message">{{errorMessage}}</span>
+        <span class="error-message" data-for={{name}}>Ошибка валидации поля "{{placeholder}}"</span>
+      </div>
     `;
   }
 }

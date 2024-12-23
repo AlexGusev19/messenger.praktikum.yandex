@@ -4,7 +4,6 @@ import { Link } from "../../components/Link";
 
 export class ErrorMessage extends Block {
   constructor(props) {
-    console.log("ErrorMessage", props);
     super({
       ...props,
       BackLink: new Link({

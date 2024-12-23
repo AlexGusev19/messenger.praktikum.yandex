@@ -3,7 +3,6 @@ import Block from "../../framework/Block";
 
 export class UserAvatar extends Block {
   constructor(props) {
-    console.log("UserAvatar", props);
     super({
       ...props,
     });
