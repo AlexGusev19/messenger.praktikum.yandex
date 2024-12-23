@@ -1,5 +1,6 @@
 import EventBus from "./EventBus";
 import Handlebars from "handlebars";
+import { v4 as makeUUID } from "uuid";
 
 export default class Block {
   static EVENTS = {
@@ -11,7 +12,7 @@ export default class Block {
 
   _element = null;
 
-  _id = Math.floor(100000 + Math.random() * 900000);
+  _id = makeUUID();
 
   constructor(propsWithChildren = {}) {
     const eventBus = new EventBus();
@@ -53,10 +54,10 @@ export default class Block {
 
   _render() {
     const propsAndStubs = { ...this.props };
-    const tmpId = Math.floor(100000 + Math.random() * 900000);
+    const tmpId = makeUUID();
 
     this._removeEvents();
-    
+
     Object.entries(this.children).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
