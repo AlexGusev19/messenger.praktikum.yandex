@@ -5,20 +5,29 @@ import { v4 as makeUUID } from 'uuid';
 type CallBackType = () => void;
 type EventBusType = () => EventBus;
 
-interface IBlockProps {
-  [key: string]: string | CallBackType;
-}
-
 interface IProps {
   [key: string]: string;
 }
+type IListProps = Record<string, Block[]>;
+type IChildrenProps = Record<string, Block>;
 
 interface IEvent {
   [key: string]: CallBackType;
 }
 
-interface IEvent {
-  [key: string]: CallBackType;
+interface IAttr {
+  [key: string]: string;
+}
+
+interface IPropsWithChildren {
+  [key: string]:
+  | string
+  | boolean
+  | Block
+  | Block[]
+  | IEvent
+  | IAttr
+  | undefined;
 }
 
 export default class Block {
@@ -35,13 +44,13 @@ export default class Block {
 
   protected props: IProps;
 
-  protected children: Record<string, Block>;
+  protected children: IChildrenProps;
 
-  protected lists: Record<string, Block[]>;
+  protected lists: IListProps;
 
   protected eventBus: EventBusType;
 
-  constructor(propsWithChildren = {}) {
+  constructor(propsWithChildren: IPropsWithChildren = {}) {
     console.log({ propsWithChildren });
     const eventBus = new EventBus();
     const { props, children, lists } =
@@ -72,7 +81,10 @@ export default class Block {
     });
   }
 
-  _componentDidUpdate(oldProps, newProps) {
+  _componentDidUpdate(
+    oldProps: IPropsWithChildren,
+    newProps: IPropsWithChildren,
+  ) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -180,7 +192,6 @@ export default class Block {
       } else if (Array.isArray(value)) {
         lists[key] = value;
       } else {
-        console.log('f', { key, value });
         props[key] = value;
       }
     });

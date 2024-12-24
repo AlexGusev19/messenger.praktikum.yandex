@@ -8,7 +8,12 @@ interface ILinkProps {
 
 export class Link extends Block {
   constructor(props: ILinkProps) {
-    super({ ...props });
+    super({
+      ...props,
+      events: {
+        click: () => console.log('click'),
+      },
+    });
   }
 
   render() {

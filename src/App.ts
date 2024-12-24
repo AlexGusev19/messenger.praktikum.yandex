@@ -345,8 +345,6 @@ export default class App {
       appElement?.appendChild(template);
     }
 
-    console.log(pagesData[currentPage as PagesList]);
-
     const currentData = pagesData[currentPage as PagesList];
 
     const PageComponent = new pageClass[currentPage as PagesList](currentData);
