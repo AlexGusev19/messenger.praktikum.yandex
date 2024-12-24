@@ -60,7 +60,7 @@ export default class Block {
     const eventBus = new EventBus();
     const { props, children, lists } =
       this._getChildrenPropsAndLists(propsWithChildren);
-    this.props = this._makePropsProxy({ ...props });
+    this.props = this._makePropsProxy({ ...(props as IProps) });
     this.children = children;
     this.lists = lists;
     this.eventBus = () => eventBus;
@@ -188,7 +188,7 @@ export default class Block {
 
   _getChildrenPropsAndLists(propsAndChildren: IPropsWithChildren) {
     const children: IChildrenProps = {};
-    const props: IProps = {};
+    const props: Record<string, unknown> = {};
     const lists: IListProps = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
