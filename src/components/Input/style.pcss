@@ -1,9 +1,22 @@
+.input__container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .input {
   border: none;
   border-bottom: 1px solid;
-  border-bottom-color: #3369f3;
+  border-bottom-color: var(--primary-color);
   border-radius: 4px 4px 0 0;
-  padding-top: 32px;
-  padding-bottom: 7px;
   outline: none;
+  padding-bottom: 7px;
+  padding-top: 32px;
+}
+
+.error-message {
+  color: var(--error-color);
+  display: none;
+  font-size: 8px;
+  margin-top: 7px;
 }

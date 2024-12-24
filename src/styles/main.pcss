@@ -1,5 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
+:root {
+  --primary-color: #3369f3;
+  --secondary-color: #999;
+  --background-color: #fff;
+  --text-color: #1e1e1e;
+  --error-color: #ff2f2f;
+  --error-button-color: #f00;
+  --line-color: #eaeaea;
+  --input-background-color: #efefef;
+  --income-message: #f8f8f8;
+  --outcome-message: #e4edfd;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,9 +24,9 @@ html {
 }
 
 body {
-  background-color: #fff;
-  font-family: Inter;
-  color: #1e1e1e;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: Inter, sans-serif;
   font-size: 1.3rem;
 }
 
@@ -22,7 +35,7 @@ ul {
 }
 
 a {
-  color: #3369f3;
+  color: var(--primary-color);
   text-decoration: none;
 }
 

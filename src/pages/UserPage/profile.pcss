@@ -1,9 +1,9 @@
 .profile__left-side {
-  display: flex;
-  justify-content: center;
   align-items: center;
+  border-right: 1px solid var(--line-color);
+  display: flex;
   flex: 0 0 64px;
-  border-right: 1px solid #eaeaea;
+  justify-content: center;
 }
 
 .profile__main {
@@ -12,8 +12,8 @@
 
 .profile__main__container {
   margin: 0 auto;
-  width: 520px;
   padding-top: 60px;
+  width: 520px;
 }
 
 .profile__main__controls {
@@ -22,15 +22,15 @@
   margin-top: 60px;
 
   & .profile__link {
-    padding-top: 10px;
+    border-bottom: 1px solid var(--line-color);
     padding-bottom: 10px;
-    border-bottom: 1px solid #eaeaea;
+    padding-top: 10px;
   }
 }
 
 .profile__link:last-of-type {
-  color: #ff0000;
   border: none;
+  color: var(--error-button-color);
 }
 
 .profile__control {
