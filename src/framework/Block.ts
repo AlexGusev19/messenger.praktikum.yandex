@@ -11,7 +11,14 @@ interface IBlockProps {
 
 interface IProps {
   [key: string]: string;
-  events?: Record<string, CallBackType>;
+}
+
+interface IEvent {
+  [key: string]: CallBackType;
+}
+
+interface IEvent {
+  [key: string]: CallBackType;
 }
 
 export default class Block {
@@ -35,6 +42,7 @@ export default class Block {
   protected eventBus: EventBusType;
 
   constructor(propsWithChildren = {}) {
+    console.log({ propsWithChildren });
     const eventBus = new EventBus();
     const { props, children, lists } =
       this._getChildrenPropsAndLists(propsWithChildren);
@@ -86,7 +94,9 @@ export default class Block {
       propsAndStubs[key] = `<div data-id="__l_${tmpId}"></div>`;
     });
 
-    const fragment = this._createDocumentElement('template');
+    const fragment = this._createDocumentElement(
+      'template',
+    ) as HTMLTemplateElement;
     fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
 
     Object.values(this.children).forEach((child) => {
@@ -97,13 +107,11 @@ export default class Block {
     });
 
     Object.entries(this.lists).forEach(([, child]) => {
-      const listCont = this._createDocumentElement('template');
+      const listCont = this._createDocumentElement(
+        'template',
+      ) as HTMLTemplateElement;
       child.forEach((item) => {
-        if (item instanceof Block) {
-          listCont.content.append(item.getContent());
-        } else {
-          listCont.content.append(`${item}`);
-        }
+        listCont.content.append(item.getContent());
       });
       const stub = fragment.content.querySelector(`[data-id="__l_${tmpId}"]`);
       if (stub) {
@@ -111,7 +119,7 @@ export default class Block {
       }
     });
 
-    const newElement = fragment.content.firstElementChild;
+    const newElement = fragment.content.firstElementChild as HTMLElement;
 
     if (this._element && newElement) {
       this._element.replaceWith(newElement);
@@ -145,7 +153,7 @@ export default class Block {
 
     Object.entries(attr).forEach(([key, value]) => {
       if (this._element) {
-        this._element.setAttribute(key, value);
+        this._element.setAttribute(key, value as string);
       }
     });
   }
@@ -156,7 +164,6 @@ export default class Block {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   componentDidUpdate(oldProps, newProps) {
     console.log(oldProps, newProps);
     return true;
@@ -164,7 +171,7 @@ export default class Block {
 
   _getChildrenPropsAndLists(propsAndChildren) {
     const children: Record<string, Block> = {};
-    const props: Record<string, string | CallBackType> = {};
+    const props: Record<string, string | undefined> = {};
     const lists: Record<string, Block[]> = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
@@ -173,7 +180,7 @@ export default class Block {
       } else if (Array.isArray(value)) {
         lists[key] = value;
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        console.log('f', { key, value });
         props[key] = value;
       }
     });

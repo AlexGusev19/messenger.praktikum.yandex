@@ -45,9 +45,10 @@ export class UserPage extends Block {
         imgSrc: '/images/user-avatar.svg',
         imgAlt: 'user avatar',
       }),
-      rowList: (props.viewMode ? props.itemList : props.inputList).map(
-        (row) => new Components.UserProfileDataRow({ ...row }),
-      ),
+      rowList: (props.viewMode
+        ? props.itemList ?? []
+        : props.inputList ?? []
+      ).map((row) => new Components.UserProfileDataRow({ ...row })),
       actionsList: props.actions.map((item) => {
         if (item.componentType === 'link') {
           return new Components.Link({ ...item });

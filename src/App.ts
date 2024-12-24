@@ -356,7 +356,6 @@ export default class App {
   }
 
   changePage(page: string) {
-    console.log('changePage');
     this.state.currentPage = page;
     this.render();
   }
@@ -397,11 +396,6 @@ export default class App {
               }
             });
           } else {
-            console.log(
-              'selectedElement',
-              { selectedElement },
-              selectedElement instanceof HTMLLinkElement,
-            );
             selectedElement.addEventListener(
               'click',
               (
