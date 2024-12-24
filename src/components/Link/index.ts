@@ -1,4 +1,3 @@
-import './style.pcss';
 import Block from '../../framework/Block';
 
 interface ILinkProps {
