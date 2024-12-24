@@ -1,0 +1,13 @@
+<div class="profile__row">
+  <span>{{rowName}}</span>
+  {{#if changeMode}}
+    <input
+      class="profile__input"
+      type="{{inputType}}"
+      name="{{inputName}}"
+      placeholder="{{inputPlaceholder}}"
+    />
+  {{else}}
+    <span class="profile__row__data">{{rowData}}</span>
+  {{/if}}
+</div>
