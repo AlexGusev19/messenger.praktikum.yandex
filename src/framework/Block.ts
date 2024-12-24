@@ -16,12 +16,12 @@ interface IAttr {
 }
 
 interface ICommonProps {
-  [key: string]: string;
+  [key: string]: string | undefined;
 }
 
 type IProps = ICommonProps & {
   events?: IEvent;
-  attr?: ICommonProps;
+  attr?: Record<string, string>;
 }; 
 
 interface IPropsWithChildren {
@@ -62,7 +62,7 @@ export default class Block {
       this._getChildrenPropsAndLists(propsWithChildren);
     this.props = this._makePropsProxy({ ...props });
     this.children = children;
-    this.lists = this._makePropsProxy({ ...lists });
+    this.lists = lists;
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
@@ -87,8 +87,8 @@ export default class Block {
   }
 
   _componentDidUpdate(
-    oldProps: IPropsWithChildren,
-    newProps: IPropsWithChildren,
+    oldProps: IProps,
+    newProps: IProps,
   ) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
@@ -181,15 +181,15 @@ export default class Block {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  componentDidUpdate(oldProps, newProps) {
+  componentDidUpdate(oldProps: IProps, newProps: IProps) {
     console.log(oldProps, newProps);
     return true;
   }
 
   _getChildrenPropsAndLists(propsAndChildren: IPropsWithChildren) {
-    const children: Record<string, Block> = {};
-    const props: Record<string, string | undefined> = {};
-    const lists: Record<string, Block[]> = {};
+    const children: IChildrenProps = {};
+    const props: IProps = {};
+    const lists: IListProps = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
@@ -204,7 +204,7 @@ export default class Block {
     return { children, props, lists };
   }
 
-  setProps = (nextProps) => {
+  setProps = (nextProps: IProps) => {
     if (!nextProps) {
       return;
     }
@@ -235,11 +235,11 @@ export default class Block {
     return this._element;
   }
 
-  _makePropsProxy(props) {
+  _makePropsProxy(props: IProps) {
     return new Proxy(props, {
       get(target, prop: string) {
         const value = target[prop];
-        return typeof value === 'function' ? value.bind(target) : value;
+        return typeof value === 'function' ? (value as CallBackType).bind(target) : value;
       },
       set(target, prop: string, value) {
         const oldTarget = { ...target };

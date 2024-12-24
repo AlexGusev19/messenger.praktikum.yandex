@@ -15,6 +15,10 @@ enum PagesList {
   profileChange = 'profileChange',
   profileChangePassword = 'profileChangePassword',
 }
+type PageClassType = ILoginPageProps &
+IChatPage &
+IErrorPageProps &
+IProfilePageProps;
 
 type BlockType<P, C> = { new(props: P): C };
 
@@ -347,7 +351,9 @@ export default class App {
 
     const currentData = pagesData[currentPage as PagesList];
 
-    const PageComponent = new pageClass[currentPage as PagesList](currentData);
+    const PageComponent = new pageClass[currentPage as PagesList](
+      currentData as PageClassType,
+    );
     template.replaceWith(PageComponent.getContent());
 
     this.addEventListeners();

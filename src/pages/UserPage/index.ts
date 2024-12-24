@@ -1,6 +1,6 @@
 import './profile.pcss';
 import Block from '../../framework/Block';
-import * as Components from '../../components';
+import * as Components from '../../components/';
 
 export interface IProfilePageProps {
   viewMode?: boolean;
