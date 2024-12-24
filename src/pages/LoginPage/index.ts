@@ -35,9 +35,9 @@ export class LoginPage extends Block {
       actionsList: props.actions.map(({ componentType, className, text, dataPage }) => {
         if (componentType === 'link') {
           return new Components.Link({ className, text, dataPage });
-        } else if (componentType === 'button') {
-          return new Components.Button({ text, dataPage });
-        }
+        } 
+          
+        return new Components.Button({ text, dataPage });
       }),
     });
   }

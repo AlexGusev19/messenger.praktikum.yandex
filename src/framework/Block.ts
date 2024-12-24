@@ -56,7 +56,6 @@ export default class Block {
   protected eventBus: EventBusType;
 
   constructor(propsWithChildren: IPropsWithChildren = {}) {
-    console.log({ propsWithChildren });
     const eventBus = new EventBus();
     const { props, children, lists } =
       this._getChildrenPropsAndLists(propsWithChildren);

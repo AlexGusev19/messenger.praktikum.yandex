@@ -52,9 +52,9 @@ export class UserPage extends Block {
       actionsList: props.actions.map((item) => {
         if (item.componentType === 'link') {
           return new Components.Link({ ...item });
-        } else if (item.componentType === 'button') {
-          return new Components.Button({ ...item });
         }
+        
+        return new Components.Button({ ...item });
       }),
     });
   }
