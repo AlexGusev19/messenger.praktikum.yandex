@@ -4,10 +4,6 @@ import { v4 as makeUUID } from 'uuid';
 
 type CallBackType = () => void;
 type EventBusType = () => EventBus;
-
-interface IProps {
-  [key: string]: string;
-}
 type IListProps = Record<string, Block[]>;
 type IChildrenProps = Record<string, Block>;
 
@@ -18,6 +14,15 @@ interface IEvent {
 interface IAttr {
   [key: string]: string;
 }
+
+interface ICommonProps {
+  [key: string]: string;
+}
+
+type IProps = ICommonProps & {
+  events?: IEvent;
+  attr?: ICommonProps;
+}; 
 
 interface IPropsWithChildren {
   [key: string]:
@@ -165,7 +170,7 @@ export default class Block {
 
     Object.entries(attr).forEach(([key, value]) => {
       if (this._element) {
-        this._element.setAttribute(key, value as string);
+        this._element.setAttribute(key, value);
       }
     });
   }
@@ -181,7 +186,7 @@ export default class Block {
     return true;
   }
 
-  _getChildrenPropsAndLists(propsAndChildren) {
+  _getChildrenPropsAndLists(propsAndChildren: IPropsWithChildren) {
     const children: Record<string, Block> = {};
     const props: Record<string, string | undefined> = {};
     const lists: Record<string, Block[]> = {};
