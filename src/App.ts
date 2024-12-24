@@ -1,4 +1,4 @@
-import * as Pages from './pages/';
+import * as Pages from './pages';
 import type { IChatPage } from './pages/ChatPage';
 import type { IErrorPageProps } from './pages/ErrorPage';
 import type { ILoginPageProps } from './pages/LoginPage';
