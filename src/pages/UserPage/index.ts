@@ -1,28 +1,57 @@
-import "./profile.pcss";
-import Block from "../../framework/Block";
-import * as Components from "./../../components";
+import './profile.pcss';
+import Block from '../../framework/Block';
+import * as Components from '../../components';
+
+export interface IProfilePageProps {
+  viewMode?: boolean;
+  userName?: string;
+  itemList?: IItemList[];
+  inputList?: IRowInputList[];
+  actions: IActions[];
+}
+
+interface IActions {
+  componentType: string;
+  id?: string;
+  className?: string;
+  text: string;
+  dataPage: string;
+}
+
+interface IItemList {
+  rowName: string;
+  rowData: string;
+}
+
+interface IRowInputList {
+  changeMode: boolean;
+  rowName: string;
+  inputType: string;
+  inputName: string;
+  inputPlaceholder: string;
+}
 
 export class UserPage extends Block {
-  constructor(props) {
+  constructor(props: IProfilePageProps) {
     super({
       viewMode: props.viewMode,
       ImageLinkComponent: new Components.ImageLink({
-        imgSrc: "/images/left-arrow-button.svg",
-        imgAlt: "left arrow",
-        dataPage: "chat",
+        imgSrc: '/images/left-arrow-button.svg',
+        imgAlt: 'left arrow',
+        dataPage: 'chat',
       }),
       UserAvatarComponent: new Components.UserAvatar({
         userName: props.userName,
-        imgSrc: "/images/user-avatar.svg",
-        imgAlt: "user avatar",
+        imgSrc: '/images/user-avatar.svg',
+        imgAlt: 'user avatar',
       }),
-      rowList: props.itemList.map(
-        (row) => new Components.UserProfileDataRow({ ...row })
+      rowList: (props.viewMode ? props.itemList : props.inputList).map(
+        (row) => new Components.UserProfileDataRow({ ...row }),
       ),
       actionsList: props.actions.map((item) => {
-        if (item.componentType === "link") {
+        if (item.componentType === 'link') {
           return new Components.Link({ ...item });
-        } else if (item.componentType === "button") {
+        } else if (item.componentType === 'button') {
           return new Components.Button({ ...item });
         }
       }),

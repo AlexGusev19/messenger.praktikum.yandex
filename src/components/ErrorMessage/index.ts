@@ -1,15 +1,20 @@
-import "./style.pcss";
-import Block from "../../framework/Block";
-import { Link } from "../../components/Link";
+import './style.pcss';
+import Block from '../../framework/Block';
+import { Link } from '../Link';
+
+interface IErrorMessageProps {
+  errorStatus: string;
+  errorMessage: string;
+}
 
 export class ErrorMessage extends Block {
-  constructor(props) {
+  constructor(props: IErrorMessageProps) {
     super({
       ...props,
       BackLink: new Link({
-        dataPage: "chat",
-        text: "Назад к чатам",
-        className: "link-component",
+        dataPage: 'chat',
+        text: 'Назад к чатам',
+        className: 'link-component',
       }),
     });
   }

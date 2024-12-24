@@ -1,20 +1,42 @@
-import "./login.pcss";
-import Block from "../../framework/Block";
-import * as Components from "./../../components";
+import './login.pcss';
+import Block from '../../framework/Block';
+import * as Components from '../../components';
+
+interface IInputItems {
+  className: string;
+  type: string;
+  placeholder: string;
+  name: string;
+}
+
+interface IActions {
+  componentType: string;
+  id?: string;
+  className?: string;
+  text: string;
+  dataPage: string;
+}
+
+export interface ILoginPageProps {
+  title: string;
+  menuMode?: boolean;
+  inputItems?: IInputItems[];
+  actions: IActions[];
+}
 
 export class LoginPage extends Block {
-  constructor(props) {
+  constructor(props: ILoginPageProps) {
     super({
       title: props.title,
       menuMode: props.menuMode,
       inputList:
         props.inputItems &&
         props.inputItems.map((input) => new Components.Input({ ...input })),
-      actionsList: props.actions.map((item) => {
-        if (item.componentType === "link") {
-          return new Components.Link({ ...item });
-        } else if (item.componentType === "button") {
-          return new Components.Button({ ...item });
+      actionsList: props.actions.map(({ componentType, className, text, dataPage }) => {
+        if (componentType === 'link') {
+          return new Components.Link({ className, text, dataPage });
+        } else if (componentType === 'button') {
+          return new Components.Button({ text, dataPage });
         }
       }),
     });

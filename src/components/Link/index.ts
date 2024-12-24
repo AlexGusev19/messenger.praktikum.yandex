@@ -1,8 +1,14 @@
-import "./style.pcss";
-import Block from "../../framework/Block";
+import './style.pcss';
+import Block from '../../framework/Block';
+
+interface ILinkProps {
+  className?: string;
+  text: string;
+  dataPage: string;
+}
 
 export class Link extends Block {
-  constructor(props) {
+  constructor(props: ILinkProps) {
     super({ ...props });
   }
 

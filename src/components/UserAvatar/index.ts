@@ -1,8 +1,14 @@
-import "./style.pcss";
-import Block from "../../framework/Block";
+import './style.pcss';
+import Block from '../../framework/Block';
+
+interface IUserAvatarProps {
+  imgSrc: string;
+  imgAlt: string;
+  userName?: string;
+}
 
 export class UserAvatar extends Block {
-  constructor(props) {
+  constructor(props: IUserAvatarProps) {
     super({
       ...props,
     });

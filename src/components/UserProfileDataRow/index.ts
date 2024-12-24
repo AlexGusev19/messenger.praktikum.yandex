@@ -1,8 +1,17 @@
-import "./style.pcss";;
-import Block from "../../framework/Block";
+import './style.pcss';
+import Block from '../../framework/Block';
+
+interface IUserProfileDataRow {
+  changeMode?: boolean;
+  rowName: string;
+  rowData?: string;
+  inputName?: string;
+  inputType?: string;
+  inputPlaceholder?: string;
+}
 
 export class UserProfileDataRow extends Block {
-  constructor(props) {
+  constructor(props: IUserProfileDataRow) {
     super({
       ...props,
     });
@@ -24,7 +33,7 @@ export class UserProfileDataRow extends Block {
               placeholder="{{inputPlaceholder}}"
             />
         </div>`;
-        
+
     return row;
   }
 }

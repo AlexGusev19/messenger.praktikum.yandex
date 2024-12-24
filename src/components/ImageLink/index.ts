@@ -1,8 +1,14 @@
-import "./style.pcss";;
-import Block from "../../framework/Block";
+import './style.pcss';
+import Block from '../../framework/Block';
+
+interface IImageLinkProps {
+  dataPage: string;
+  imgSrc: string;
+  imgAlt: string;
+}
 
 export class ImageLink extends Block {
-  constructor(props) {
+  constructor(props: IImageLinkProps) {
     super({
       ...props,
     });

@@ -1,47 +1,46 @@
-import "./chat.pcss";
+import './chat.pcss';
 import Block from '../../framework/Block';
-import * as Components from "./../../components";
+import * as Components from '../../components';
+
+export interface IChatPage {}
 
 export class ChatPage extends Block {
-  constructor(props) {
+  constructor(props: IChatPage) {
     super({
       ...props,
       profileLink: new Components.Link({
-        dataPage: "profile",
-        text: "Профиль >",
-        className: "profile-link",
+        dataPage: 'profile',
+        text: 'Профиль >',
+        className: 'profile-link',
       }),
       searchInput: new Components.Input({
-        className: "chat__left-side__search__control",
-        type: "search",
-        placeholder: "Поиск",
-        name: "search",
+        className: 'chat__left-side__search__control',
+        type: 'search',
+        placeholder: 'Поиск',
+        name: 'search',
       }),
       chatAvatar: new Components.ChatAvatar({
-        chatName: "Вадим",
-        avatarSrc: "/images/user-blank-avatar.svg",
-        avatarAlt: "chat avatar",
+        chatName: 'Вадим',
+        avatarSrc: '/images/user-blank-avatar.svg',
+        avatarAlt: 'chat avatar',
       }),
       menuButton: new Components.ImageButton({
-        idButton: "chat-menu",
-        imgSrc: "/images/menu-chat.svg",
-        alt: "chat menu",
+        imgSrc: '/images/menu-chat.svg',
+        imgAlt: 'chat menu',
       }),
       addFileButton: new Components.ImageButton({
-        idButton: "addFile",
-        imgSrc: "/images/add-file.svg",
-        alt: "add file",
+        imgSrc: '/images/add-file.svg',
+        imgAlt: 'add file',
       }),
       sendInput: new Components.Input({
-        className: "chat__input",
-        type: "text",
-        placeholder: "Сообщение",
-        name: "message",
+        className: 'chat__input',
+        type: 'text',
+        placeholder: 'Сообщение',
+        name: 'message',
       }),
       sendButton: new Components.ImageButton({
-        idButton: "send",
-        imgSrc: "/images/right-arrow-button.svg",
-        alt: "send",
+        imgSrc: '/images/right-arrow-button.svg',
+        imgAlt: 'send',
       }),
     });
   }

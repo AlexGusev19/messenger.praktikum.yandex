@@ -1,18 +1,38 @@
-import EventBus from "./EventBus";
-import Handlebars from "handlebars";
-import { v4 as makeUUID } from "uuid";
+import EventBus from './EventBus';
+import Handlebars from 'handlebars';
+import { v4 as makeUUID } from 'uuid';
+
+type CallBackType = () => void;
+type EventBusType = () => EventBus;
+
+interface IBlockProps {
+  [key: string]: string | CallBackType;
+}
+
+interface IProps {
+  [key: string]: string;
+  events?: Record<string, CallBackType>;
+}
 
 export default class Block {
   static EVENTS = {
-    INIT: "init",
-    FLOW_CDM: "flow:component-did-mount",
-    FLOW_CDU: "flow:component-did-update",
-    FLOW_RENDER: "flow:render",
+    INIT: 'init',
+    FLOW_CDM: 'flow:component-did-mount',
+    FLOW_CDU: 'flow:component-did-update',
+    FLOW_RENDER: 'flow:render',
   };
 
-  _element = null;
+  _element: HTMLElement | null = null;
 
-  _id = makeUUID();
+  _id: string = makeUUID();
+
+  protected props: IProps;
+
+  protected children: Record<string, Block>;
+
+  protected lists: Record<string, Block[]>;
+
+  protected eventBus: EventBusType;
 
   constructor(propsWithChildren = {}) {
     const eventBus = new EventBus();
@@ -26,7 +46,7 @@ export default class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _registerEvents(eventBus) {
+  _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -66,7 +86,7 @@ export default class Block {
       propsAndStubs[key] = `<div data-id="__l_${tmpId}"></div>`;
     });
 
-    const fragment = this._createDocumentElement("template");
+    const fragment = this._createDocumentElement('template');
     fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);
 
     Object.values(this.children).forEach((child) => {
@@ -77,7 +97,7 @@ export default class Block {
     });
 
     Object.entries(this.lists).forEach(([, child]) => {
-      const listCont = this._createDocumentElement("template");
+      const listCont = this._createDocumentElement('template');
       child.forEach((item) => {
         if (item instanceof Block) {
           listCont.content.append(item.getContent());
@@ -143,9 +163,9 @@ export default class Block {
   }
 
   _getChildrenPropsAndLists(propsAndChildren) {
-    const children = {};
-    const props = {};
-    const lists = {};
+    const children: Record<string, Block> = {};
+    const props: Record<string, string | CallBackType> = {};
+    const lists: Record<string, Block[]> = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
@@ -169,7 +189,7 @@ export default class Block {
     Object.assign(this.props, nextProps);
   };
 
-  setLists = (nextList) => {
+  setLists = (nextList: Record<string, Block[]>) => {
     if (!nextList) {
       return;
     }
@@ -182,12 +202,12 @@ export default class Block {
   }
 
   render() {
-    return "";
+    return '';
   }
 
   getContent() {
     if (!this._element) {
-      throw new Error("Element is not created");
+      throw new Error('Element is not created');
     }
     return this._element;
   }
@@ -196,37 +216,37 @@ export default class Block {
     const self = this;
 
     return new Proxy(props, {
-      get(target, prop) {
+      get(target, prop: string) {
         const value = target[prop];
-        return typeof value === "function" ? value.bind(target) : value;
+        return typeof value === 'function' ? value.bind(target) : value;
       },
-      set(target, prop, value) {
+      set(target, prop: string, value) {
         const oldTarget = { ...target };
         target[prop] = value;
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
       deleteProperty() {
-        throw new Error("No access");
+        throw new Error('No access');
       },
     });
   }
 
-  _createDocumentElement(tagName) {
+  _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
   show() {
     const content = this.getContent();
     if (content) {
-      content.style.display = "block";
+      content.style.display = 'block';
     }
   }
 
   hide() {
     const content = this.getContent();
     if (content) {
-      content.style.display = "none";
+      content.style.display = 'none';
     }
   }
 }

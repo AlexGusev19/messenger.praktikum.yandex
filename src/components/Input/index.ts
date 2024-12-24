@@ -1,10 +1,17 @@
-import "./style.pcss";
-import Block from "../../framework/Block";
+import './style.pcss';
+import Block from '../../framework/Block';
+
+interface IInputProps {
+  className: string;
+  type: string;
+  placeholder: string;
+  name: string;
+}
 
 export class Input extends Block {
-  constructor(props) {
+  constructor(props: IInputProps) {
     super({
-        ...props,
+      ...props,
     });
   }
 

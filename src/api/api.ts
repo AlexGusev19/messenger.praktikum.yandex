@@ -1,52 +1,66 @@
-const METHOD = {
-  GET: "GET",
-  POST: "POST",
-  PUT: "PUT",
-  PATCH: "PATCH",
-  DELETE: "DELETE",
-};
+enum METHOD {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
+  DELETE = 'DELETE',
+}
+
+interface IOptions {
+  method: METHOD;
+  headers?: Record<string, string>;
+  data?: Record<string, string>;
+  timeout?: number;
+}
 
 class HTTPTransport {
-  get(url, options = {}) {
+  get(url: string, options: IOptions): Promise<XMLHttpRequest> {
     return this.request(
       url,
       { ...options, method: METHOD.GET },
-      options.timeout
+      options.timeout,
     );
   }
 
-  put(url, options = {}) {
+  put(url: string, options: IOptions): Promise<XMLHttpRequest> {
     return this.request(
       url,
       { ...options, method: METHOD.PUT },
-      options.timeout
+      options.timeout,
     );
   }
 
-  post(url, options = {}) {
+  post(url: string, options: IOptions): Promise<XMLHttpRequest> {
     return this.request(
       url,
       { ...options, method: METHOD.POST },
-      options.timeout
+      options.timeout,
     );
   }
 
-  delete(url, options = {}) {
+  delete(url: string, options: IOptions): Promise<XMLHttpRequest> {
     return this.request(
       url,
       { ...options, method: METHOD.DELETE },
-      options.timeout
+      options.timeout,
     );
   }
 
-  request(url, options = {}, timeout = 5000) {    
+  request(
+    url: string,
+    options: IOptions,
+    timeout = 5000,
+  ): Promise<XMLHttpRequest> {
     const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       const isGet = method === METHOD.GET;
 
-      xhr.open(method, isGet && !!data ? `${url}${this.queryStringify(data)}` : url);
+      xhr.open(
+        method,
+        isGet && !!data ? `${url}${this.queryStringify(data)}` : url,
+      );
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
@@ -65,21 +79,21 @@ class HTTPTransport {
       if (method === METHOD.GET || !data) {
         xhr.send();
       } else {
-        xhr.send(data);
+        xhr.send(JSON.stringify(data));
       }
     });
   }
 
-  queryStringify(data) {
-    if (typeof data !== "object") {
-      throw new Error("Data must be object");
+  queryStringify(data: Record<string, string>) {
+    if (typeof data !== 'object') {
+      throw new Error('Data must be object');
     }
     const keys = Object.keys(data);
     return keys.reduce((result, key, index) => {
       return `${result}${key}=${data[key]}${
-        index < keys.length - 1 ? "&" : ""
+        index < keys.length - 1 ? '&' : ''
       }`;
-    }, "?");
+    }, '?');
   }
 }
 
