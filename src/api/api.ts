@@ -17,43 +17,23 @@ type TRequest = (url: string, options: IOptions) => Promise<XMLHttpRequest>;
 
 class HTTPTransport {
   get: TRequest = (url, options) => {
-    return this.request(
-      url,
-      { ...options, method: METHOD.GET },
-      options.timeout,
-    );
+    return this.request(url, { ...options, method: METHOD.GET });
   };
 
   put: TRequest = (url: string, options: IOptions) => {
-    return this.request(
-      url,
-      { ...options, method: METHOD.PUT },
-      options.timeout,
-    );
+    return this.request(url, { ...options, method: METHOD.PUT });
   };
 
   post: TRequest = (url: string, options: IOptions) => {
-    return this.request(
-      url,
-      { ...options, method: METHOD.POST },
-      options.timeout,
-    );
+    return this.request(url, { ...options, method: METHOD.POST });
   };
 
   delete: TRequest = (url: string, options: IOptions) => {
-    return this.request(
-      url,
-      { ...options, method: METHOD.DELETE },
-      options.timeout,
-    );
+    return this.request(url, { ...options, method: METHOD.DELETE });
   };
 
-  request(
-    url: string,
-    options: IOptions,
-    timeout = 5000,
-  ): Promise<XMLHttpRequest> {
-    const { headers = {}, method, data } = options;
+  request(url: string, options: IOptions): Promise<XMLHttpRequest> {
+    const { headers = {}, method, data, timeout = 5000 } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
