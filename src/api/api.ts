@@ -13,38 +13,40 @@ interface IOptions {
   timeout?: number;
 }
 
+type TRequest = (url: string, options: IOptions) => Promise<XMLHttpRequest>;
+
 class HTTPTransport {
-  get(url: string, options: IOptions): Promise<XMLHttpRequest> {
+  get: TRequest = (url, options) => {
     return this.request(
       url,
       { ...options, method: METHOD.GET },
       options.timeout,
     );
-  }
+  };
 
-  put(url: string, options: IOptions): Promise<XMLHttpRequest> {
+  put: TRequest = (url: string, options: IOptions) => {
     return this.request(
       url,
       { ...options, method: METHOD.PUT },
       options.timeout,
     );
-  }
+  };
 
-  post(url: string, options: IOptions): Promise<XMLHttpRequest> {
+  post: TRequest = (url: string, options: IOptions) => {
     return this.request(
       url,
       { ...options, method: METHOD.POST },
       options.timeout,
     );
-  }
+  };
 
-  delete(url: string, options: IOptions): Promise<XMLHttpRequest> {
+  delete: TRequest = (url: string, options: IOptions) => {
     return this.request(
       url,
       { ...options, method: METHOD.DELETE },
       options.timeout,
     );
-  }
+  };
 
   request(
     url: string,
