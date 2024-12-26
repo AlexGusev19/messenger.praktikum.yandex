@@ -435,10 +435,10 @@ export default class App {
 
   validateElement(element: HTMLInputElement) {
     const validationRules: Record<string, RegExp> = {
-      first_name: /^[A-ZА-Я]{1}[-A-Za-zА-Яа-я]{2,}$/,
-      second_name: /^[A-ZА-Я]{1}[-A-Za-zА-Яа-я]{2,}$/,
+      first_name: /^[A-ZА-ЯЁ]{1}[-A-Za-zА-ЯЁа-яё]{2,}$/,
+      second_name: /^[A-ZА-ЯЁ]{1}[-A-Za-zА-ЯЁа-яё]{2,}$/,
       login: /^[\w\d_-]{3,20}$/,
-      display_name: /^[\wА-Яа-я\d_-]{3,20}$/,
+      display_name: /^[\wА-ЯЁа-яё\d_-]{3,20}$/,
       email: /^[\w_-]+@[\w]+[.]{1}[\w]+$/,
       phone: /^[+]*[\d]{10,15}$/,
       password: /^[\w\d]{8,40}$/,
