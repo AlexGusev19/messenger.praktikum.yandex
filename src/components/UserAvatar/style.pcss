@@ -6,8 +6,34 @@
   margin-bottom: 60px;
 }
 
+.user__avatar,
+.user__avatar__change {
+  width: 130px;
+  height: 130px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 80px;
+}
+
 .user__avatar {
   margin-bottom: 21px;
+}
+
+.user__avatar__change {
+  background-color: var(--background-avatar-change);
+  color: var(--background-color);
+  opacity: 0;
+}
+
+.user__avatar__change:hover {
+  opacity: 1;
+}
+
+.user__avatar__img {
+  position: absolute;
 }
 
 .user__avatar__title {

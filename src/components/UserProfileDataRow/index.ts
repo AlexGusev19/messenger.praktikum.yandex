@@ -1,5 +1,6 @@
 import './style.pcss';
 import Block from '../../framework/Block';
+import * as Components from '../../components';
 
 interface IUserProfileDataRow {
   changeMode?: boolean;
@@ -8,12 +9,20 @@ interface IUserProfileDataRow {
   inputName?: string;
   inputType?: string;
   inputPlaceholder?: string;
+  inputValue?: string;
 }
 
 export class UserProfileDataRow extends Block {
   constructor(props: IUserProfileDataRow) {
     super({
       ...props,
+      input: new Components.InputBase({
+        className: 'profile__input',
+        type: props.inputType || '',
+        placeholder: props.inputPlaceholder || '',
+        name: props.inputName || '',
+        value: props.inputValue || '',
+      }),
     });
   }
 
@@ -26,12 +35,7 @@ export class UserProfileDataRow extends Block {
       : `<div class="profile__row">
             <span>{{rowName}}</span>
             <span class="error-message-row" data-for={{inputName}}>Ошибка валидации</span>
-            <input
-              class="profile__input"
-              type="{{inputType}}"
-              name="{{inputName}}"
-              placeholder="{{inputPlaceholder}}"
-            />
+            {{{input}}}
         </div>`;
 
     return row;

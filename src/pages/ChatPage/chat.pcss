@@ -16,6 +16,11 @@
   }
 }
 
+.chat__left-side__add-chat {
+  padding: 10px;
+  text-align: center;
+}
+
 .chat__left-side__search {
   display: flex;
   padding: 14px 10px;
@@ -34,6 +39,7 @@
 
 .chat__left-side__footer {
   flex: 1;
+  overflow-y: auto;
 }
 
 .chat__left-side__chat-list {
@@ -100,7 +106,6 @@
       }
     }
   }
-
 }
 
 .chat__main {
@@ -127,7 +132,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  
+
   & .chat__header {
     align-items: center;
     display: flex;
@@ -141,7 +146,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    
 
     & .chat__income-message__text {
       background-color: var(--income-message);
@@ -162,7 +166,7 @@
   & .chat__outcome-message {
     display: flex;
     justify-content: end;
-    padding-bottom: 30px;
+    padding-bottom: 5px;
     padding-top: 30px;
 
     & .chat__outcome-message__text {
@@ -214,4 +218,30 @@
   padding-bottom: 10px;
   padding-left: 20px;
   padding-top: 10px;
+}
+
+.dropdown {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown__button {
+  background-color: var(--background-color);
+  border: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.dropdown__content {
+  display: none;
+  position: absolute;
+  width: 100px;
+  top: 20px;
+  left: -80px;
+}
+
+.dropdown:hover .dropdown__content {
+  display: block;
 }

@@ -2,7 +2,7 @@ import EventBus from './EventBus';
 import Handlebars from 'handlebars';
 import { v4 as makeUUID } from 'uuid';
 
-type CallBackType = () => void;
+type CallBackType = (...args: unknown[]) => void;
 type EventBusType = () => EventBus;
 type IListProps = Record<string, Block[]>;
 type IChildrenProps = Record<string, Block>;
@@ -15,7 +15,7 @@ interface IAttr {
   [key: string]: string;
 }
 
-interface ICommonProps {
+export interface ICommonProps {
   [key: string]: string | undefined;
 }
 
@@ -59,9 +59,9 @@ export default class Block {
     const eventBus = new EventBus();
     const { props, children, lists } =
       this._getChildrenPropsAndLists(propsWithChildren);
-    this.props = this._makePropsProxy({ ...(props as IProps) });
-    this.children = children;
-    this.lists = lists;
+    this.props = this._makePropsProxy({ ...(props as IProps) }) as IProps;
+    this.children = this._makePropsProxy({ ...children }) as IChildrenProps;
+    this.lists = this._makePropsProxy({ ...lists }) as IListProps;
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
@@ -85,10 +85,7 @@ export default class Block {
     });
   }
 
-  _componentDidUpdate(
-    oldProps: IProps,
-    newProps: IProps,
-  ) {
+  _componentDidUpdate(oldProps: IProps, newProps: IProps) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) {
       return;
@@ -148,6 +145,7 @@ export default class Block {
 
   _addEvents() {
     const { events = {} } = this.props;
+
     Object.keys(events).forEach((eventName) => {
       if (this._element) {
         this._element.addEventListener(eventName, events[eventName]);
@@ -211,6 +209,14 @@ export default class Block {
     Object.assign(this.props, nextProps);
   };
 
+  setChildren = (nextChildren: IChildrenProps) => {
+    if (!nextChildren) {
+      return;
+    }
+
+    Object.assign(this.children, nextChildren);
+  };
+
   setLists = (nextList: Record<string, Block[]>) => {
     if (!nextList) {
       return;
@@ -234,16 +240,21 @@ export default class Block {
     return this._element;
   }
 
-  _makePropsProxy(props: IProps) {
+  _makePropsProxy(props: IProps | IChildrenProps | IListProps) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this;
+
     return new Proxy(props, {
       get(target, prop: string) {
         const value = target[prop];
-        return typeof value === 'function' ? (value as CallBackType).bind(target) : value;
+        return typeof value === 'function'
+          ? (value as CallBackType).bind(target)
+          : value;
       },
       set(target, prop: string, value) {
         const oldTarget = { ...target };
         target[prop] = value;
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
       deleteProperty() {

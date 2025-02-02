@@ -1,9 +1,11 @@
 import Block from '../../framework/Block';
+import { router } from '../../framework/Router';
 
 interface ILinkProps {
+  href: string;
   className?: string;
   text: string;
-  dataPage: string;
+  events?: Record<string, (...args: unknown[]) => void>;
 }
 
 export class Link extends Block {
@@ -11,14 +13,18 @@ export class Link extends Block {
     super({
       ...props,
       events: {
-        click: () => console.log('click'),
+        click: (event: Event) => {
+          event.preventDefault();
+          props.events?.click();
+          router.go(props.href);          
+        },
       },
     });
   }
 
   render() {
     return `
-    <a href="#" class={{className}} data-page="{{dataPage}}">
+    <a href="{{href}}" class={{className}}>
         {{text}}
     </a>`;
   }
