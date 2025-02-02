@@ -1,4 +1,6 @@
 import Block from '../../framework/Block';
+import { validateElement } from '../../utils/validate';
+import { IInputProps } from '../Input';
 
 export class InputBase extends Block {
   constructor(props: IInputProps) {

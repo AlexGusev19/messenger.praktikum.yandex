@@ -2,7 +2,7 @@ import './style.pcss';
 import Block from '../../framework/Block';
 import * as Components from '../../components';
 
-interface IInputProps {
+export interface IInputProps {
   className?: string;
   type: string;
   placeholder?: string;
