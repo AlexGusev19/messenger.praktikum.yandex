@@ -42,12 +42,12 @@ export function formValidate(form: HTMLFormElement): boolean {
 
 export function handleFormButtonClick(
   form: HTMLFormElement,
-  callBack: (args: unknown) => void
+  callBack: (args: unknown) => void,
 ) {
   if (form && formValidate(form)) {
     callBack(form);
     form.reset();
   } else {
-    console.log("Форма не валидна.");
+    console.log('Форма не валидна.');
   }
 }

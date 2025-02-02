@@ -1,6 +1,6 @@
-import Block from "../../framework/Block";
-import * as Components from "../../components";
-import { store, StoreEvents } from "../../framework/Store";
+import Block from '../../framework/Block';
+import * as Components from '../../components';
+import { store, StoreEvents } from '../../framework/Store';
 
 export class ChatList extends Block {
   constructor() {

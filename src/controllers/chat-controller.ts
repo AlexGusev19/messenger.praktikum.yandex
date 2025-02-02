@@ -8,7 +8,12 @@ export class ChatController {
   public async getChatList() {
     try {
       await chatApi.request().then((resp) => {
-        store.set('chats', JSON.parse(resp));
+        const chats = JSON.parse(resp);
+        if (chats) {
+          store.set('chats', chats);
+          store.set('currentChat', chats[0]);
+          console.log('store', { store });
+        }
       });
     } catch (error) {
       throw new Error(error.message);
@@ -44,11 +49,11 @@ export class ChatController {
           return userData.id;
         })
         .then((id) => {
-          const data = {
+          const dataUserToChat = {
             users: [id],
             chatId: '46137',
           };
-          void chatApi.addUserForChat(data);
+          void chatApi.addUserForChat(dataUserToChat);
         });
     } catch (error) {
       throw new Error(error.message);
@@ -64,11 +69,11 @@ export class ChatController {
           return userData.id;
         })
         .then((id) => {
-          const data = {
+          const dataRemoveUserFromChat = {
             users: [id],
             chatId: '46137',
           };
-          void chatApi.removeUserForChat(data);
+          void chatApi.removeUserForChat(dataRemoveUserFromChat);
         });
     } catch (error) {
       throw new Error(error.message);

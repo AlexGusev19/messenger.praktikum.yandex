@@ -1,4 +1,4 @@
-import Block from "../../framework/Block";
+import Block from '../../framework/Block';
 
 export interface IOutcomeMessage {
   message: string;

@@ -1,46 +1,41 @@
-import Block from "../../framework/Block";
-import * as Components from "../../components";
+import Block from '../../framework/Block';
+import * as Components from '../../components';
 
 export class Chat extends Block {
   constructor() {
     super({
-      ChatAvatar: new Components.ChatAvatar({
-        chatName: "Вадим",
-        avatarSrc: "/images/user-blank-avatar.svg",
-        avatarAlt: "chat avatar",
-      }),
+      ChatAvatar: new Components.ChatAvatar(),
       MenuButton: new Components.ImageButton({
-        imgSrc: "/images/menu-chat.svg",
-        imgAlt: "chat menu",
+        imgSrc: '/images/menu-chat.svg',
+        imgAlt: 'chat menu',
       }),
       AddFileButton: new Components.ImageButton({
-        imgSrc: "/images/add-file.svg",
-        imgAlt: "add file",
+        imgSrc: '/images/add-file.svg',
+        imgAlt: 'add file',
       }),
       SendInput: new Components.InputBase({
-        className: "chat__input",
-        type: "text",
-        placeholder: "Сообщение",
-        name: "message",
+        className: 'chat__input',
+        type: 'text',
+        placeholder: 'Сообщение',
+        name: 'message',
       }),
       SendButton: new Components.ImageButton({
-        imgSrc: "/images/right-arrow-button.svg",
-        imgAlt: "send",
+        imgSrc: '/images/right-arrow-button.svg',
+        imgAlt: 'send',
         events: {
-          click: (event: Event) => {
-            const { form } = event.currentTarget as HTMLButtonElement;
-            console.log("Форма не валидна.");
+          click: () => {
+            console.log('Форма не валидна.');
           },
         },
       }),
       ChatMessages: [
         new Components.ChatOutcomeMessage({
-          message: "Круто!",
-          messageDate: "12:00",
+          message: 'Круто!',
+          messageDate: '12:00',
         }),
         new Components.ChatOutcomeMessage({
-          message: "Круто!",
-          messageDate: "12:00",
+          message: 'Круто!',
+          messageDate: '12:00',
         }),
       ],
     });

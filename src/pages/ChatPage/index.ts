@@ -1,10 +1,10 @@
-import "./chat.pcss";
-import Block from "../../framework/Block";
-import * as Components from "../../components";
-import { store } from "../../framework/Store";
-import { PagesList } from "../../types/Pages";
-import { ModalMode } from "../../components/Modal";
-import { chatController } from "../../controllers/chat-controller";
+import './chat.pcss';
+import Block from '../../framework/Block';
+import * as Components from '../../components';
+import { store } from '../../framework/Store';
+import { PagesList } from '../../types/Pages';
+import { ModalMode } from '../../components/Modal';
+import { chatController } from '../../controllers/chat-controller';
 
 export interface IChatPage {}
 
@@ -14,11 +14,11 @@ export class ChatPage extends Block {
       ...props,
       ProfileLink: new Components.Link({
         href: PagesList.profile,
-        text: "Профиль >",
-        className: "profile-link",
+        text: 'Профиль >',
+        className: 'profile-link',
       }),
       AddChatButton: new Components.Button({
-        text: "Добавить чат",
+        text: 'Добавить чат',
         events: {
           click: () => {
             this.children.Modal.show();
@@ -26,20 +26,22 @@ export class ChatPage extends Block {
         },
       }),
       SearchInput: new Components.Input({
-        className: "chat__left-side__search__control",
-        type: "search",
-        placeholder: "Поиск",
-        name: "search",
+        className: 'chat__left-side__search__control',
+        type: 'search',
+        placeholder: 'Поиск',
+        name: 'search',
       }),
       Modal: new Components.Modal({ mode: ModalMode.AddChat }),
       ChatList: new Components.ChatList(),
       Chat: new Components.Chat(),
     });
 
-    void chatController.getChatList().then((resp) => console.log(resp));
-    void chatController.getUsersForChat("46137");
+    void chatController
+      .getChatList()
+      .then((resp) => console.log('getChatList', resp));
+    void chatController.getUsersForChat('46137');
 
-    void chatController.getChatToken("46137");
+    void chatController.getChatToken('46137');
 
     console.log({ store });
   }

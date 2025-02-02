@@ -42,8 +42,6 @@ export class UserLoginController {
       throw new Error(error.message);
     }
   }
-
-  public async getUserAvatar() {}
 }
 
 export const userLoginController = new UserLoginController();
