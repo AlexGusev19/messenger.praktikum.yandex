@@ -3,6 +3,18 @@ import { router } from '../framework/Router';
 import { store } from '../framework/Store';
 import { PagesList } from '../types/Pages';
 
+export function redirectByXHRStatus(status: number) {
+  if (status === 401) {
+    router.go(PagesList.login);
+  } else if (status === 400) {
+    router.go(PagesList.chat);
+  } else if (status === 404) {
+    router.go(PagesList.clientError);
+  } else if (status === 500) {
+    router.go(PagesList.serverError);
+  }
+}
+
 const loginApi = new LoginAPI();
 
 export class UserLoginController {
@@ -11,10 +23,9 @@ export class UserLoginController {
       await loginApi.request(data);
       return router.go(PagesList.chat);
     } catch (error) {
-      if (error.reason === 'User already in system') router.go(PagesList.chat);
-      console.error('Ошибка входа', error.reason);
-    }
-  
+      redirectByXHRStatus(error.status);
+      console.error('Ошибка входа', error.errorMessage);
+    }  
   }
 
   public async logout() {
@@ -22,7 +33,7 @@ export class UserLoginController {
       await loginApi.logout();
       router.go(PagesList.login);
     } catch (error) {
-      console.error('Ошибка выхода', error.message);
+      console.error('Ошибка выхода', error.errorMessage);
     }
   }
 
@@ -31,7 +42,7 @@ export class UserLoginController {
       await loginApi.create(data);
       router.go(PagesList.chat);
     } catch (error) {
-      console.error('Ошибка создания аккаунта', error.message);
+      console.error('Ошибка создания аккаунта', error.errorMessage);
     }
   }
 
@@ -41,7 +52,8 @@ export class UserLoginController {
         store.set('user', JSON.parse(resp as unknown as string));
       });
     } catch (error) {
-      console.error('Ошибка получения данных пользователя', error.message);
+      redirectByXHRStatus(error.status);
+      console.error('Ошибка получения данных пользователя', error.errorMessage);
     }
   }
 }

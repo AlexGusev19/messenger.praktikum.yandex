@@ -18,12 +18,8 @@ export interface ISignup {
 const loginAPIInstance = new HTTPTransport('api/v2/auth');
 
 export class LoginAPI extends BaseAPI {
-  async create(data?: ISignup) {
-    try {
-      return await loginAPIInstance.post('/signup', { data });
-    } catch (error) {
-      return console.error(error);
-    }
+  create(data?: ISignup) {
+    return loginAPIInstance.post('/signup', { data });
   }
 
   request(data?: ISignin) {

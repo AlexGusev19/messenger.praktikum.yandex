@@ -18,7 +18,7 @@ export class ChatController {
         }
       });
     } catch (error) {
-      console.error('Ошибка получения списка чатов', error.message);
+      console.error('Ошибка получения списка чатов', error.errorMessage);
     }
   }
 
@@ -27,7 +27,7 @@ export class ChatController {
       await chatApi.createChat(data);
       router.go(PagesList.chat);
     } catch (error) {
-      console.error('Ошибка создания чата', error.message);
+      console.error('Ошибка создания чата', error.errorMessage);
     }
   }
 
@@ -39,7 +39,7 @@ export class ChatController {
     } catch (error) {
       console.error(
         'Ошибка получения списка пользователей чата',
-        error.message,
+        error.errorMessage,
       );
     }
   }
@@ -62,7 +62,7 @@ export class ChatController {
         });
       router.go(PagesList.chat);
     } catch (error) {
-      console.error('Ошибка добавления пользователя в чат', error.message);
+      console.error('Ошибка добавления пользователя в чат', error.errorMessage);
     }
   }
 
@@ -83,7 +83,7 @@ export class ChatController {
         });
       router.go(PagesList.chat);
     } catch (error) {
-      console.error('Ошибка удаления пользователя из чат', error.message);
+      console.error('Ошибка удаления пользователя из чат', error.errorMessage);
     }
   }
 
@@ -98,7 +98,7 @@ export class ChatController {
         return { token, userId: user!.id, chatId: currentChat!.id };
       });
     } catch (error) {
-      console.error('Ошибка получения токена для чата', error.message);
+      console.error('Ошибка получения токена для чата', error.errorMessage);
     }
   }
 
@@ -111,7 +111,7 @@ export class ChatController {
       store.set('currentChat', currentChat);
       return currentChat;
     } catch (error) {
-      console.error('Ошибка добавления текущего чата', error.message);
+      console.error('Ошибка добавления текущего чата', error.errorMessage);
     }
   }
 }
