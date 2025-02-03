@@ -3,7 +3,7 @@ const WSHost = 'wss://ya-praktikum.tech';
 export class WebSocketTransport {
   intervalID: number;
 
-  socket;
+  socket: WebSocket;
 
   constructor(userId: string, chatId: string, token: string) {
     this.socket = new WebSocket(
@@ -44,6 +44,7 @@ export class WebSocketTransport {
   addEvents() {
     this.socket.addEventListener('open', () => {
       console.log('Соединение установлено');
+      this.getLastMessages();
     });
 
     this.socket.addEventListener('close', (event) => {
@@ -54,14 +55,14 @@ export class WebSocketTransport {
       }
 
       console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+      clearInterval(this.intervalID);
     });
 
-    this.socket.addEventListener('message', (event) => {
-      console.log('Получены данные', event.data);
-    });
-
-    this.socket.addEventListener('error', (event) => {
-      console.log('Ошибка', event.message);
-    });
+    this.socket.addEventListener(
+      'error',
+      (event: MessageEvent & { message: string }) => {
+        console.log('Ошибка', event.message);
+      },
+    );
   }
 }

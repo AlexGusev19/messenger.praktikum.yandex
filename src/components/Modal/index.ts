@@ -6,6 +6,7 @@ import { getFormDataToConsole } from '../../utils/getFormDataToConsole';
 import { chatController } from '../../controllers/chat-controller';
 import { ISearchUser } from '../../api/user-api';
 import { ICreateChat } from '../../api/chat-api';
+import { store } from '../../framework/Store';
 
 export enum ModalMode {
   AddUserAvatar = 'addUserAvatar',
@@ -16,6 +17,7 @@ export enum ModalMode {
 
 interface IModalProps {
   mode: ModalMode;
+  chatID?: string;
 }
 
 const componentPropsByMode = (mode: ModalMode) => {
@@ -87,7 +89,6 @@ export class Modal extends Block {
           click: (event: Event) => {
             const { form } = event.currentTarget as HTMLButtonElement;
             const data = new FormData(form!);
-            console.log({ data });
 
             if (props.mode === ModalMode.AddUserAvatar) {
               void userDataController.updateUserAvatar(data);
@@ -96,13 +97,20 @@ export class Modal extends Block {
                 getFormDataToConsole(form!) as unknown as ICreateChat,
               );
             } else if (props.mode === ModalMode.AddUserToChat) {
+              console.log({ store }, props.chatID!);
               void chatController.addUserForChat(
                 getFormDataToConsole(form!) as unknown as ISearchUser,
+                props.chatID!,
               );
+              void chatController.setCurrentChat(props.chatID!);
+              void chatController.getUsersForChat(props.chatID!);
             } else if (props.mode === ModalMode.RemoveUserFromChat) {
               void chatController.removeUserForChat(
                 getFormDataToConsole(form!) as unknown as ISearchUser,
+                props.chatID!,
               );
+              void chatController.setCurrentChat(props.chatID!);
+              void chatController.getUsersForChat(props.chatID!);
             }
             
           },

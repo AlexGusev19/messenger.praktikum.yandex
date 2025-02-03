@@ -85,8 +85,8 @@ export default class Block {
     });
   }
 
-  _componentDidUpdate(oldProps: IProps, newProps: IProps) {
-    const response = this.componentDidUpdate(oldProps, newProps);
+  _componentDidUpdate() {
+    const response = this.componentDidUpdate();
     if (!response) {
       return;
     }
@@ -178,8 +178,7 @@ export default class Block {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  componentDidUpdate(oldProps: IProps, newProps: IProps) {
-    console.log(oldProps, newProps);
+  componentDidUpdate() {
     return true;
   }
 

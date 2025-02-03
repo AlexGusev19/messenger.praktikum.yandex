@@ -5,7 +5,7 @@ export function getFormDataToConsole(form: HTMLFormElement) {
   for (const [key, value] of formValue) {
     result[key] = value;
   }
-  console.log({ ...result });
+  // console.log({ ...result });
 
   return { ...result };
 }

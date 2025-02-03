@@ -78,7 +78,7 @@ export class UserPage extends Block {
             },
           }),
         ],
-      Modal: new Components.Modal({ mode: ModalMode.RemoveUserFromChat }),
+      Modal: new Components.Modal({ mode: ModalMode.AddUserAvatar }),
     });
     this._currentPath = currentPath;
 
@@ -105,7 +105,6 @@ export class UserPage extends Block {
 
   openModal = () => {
     this.children.Modal.show();
-    console.log({ c: this });
   };
 
   componentDidMount() {

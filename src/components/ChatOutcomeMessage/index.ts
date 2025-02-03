@@ -8,7 +8,8 @@ export interface IOutcomeMessage {
 export class ChatOutcomeMessage extends Block {
   constructor(props: IOutcomeMessage) {
     super({
-      ...props,
+      message: props.message,
+      messageDate: props.messageDate,
     });
   }
 
@@ -16,11 +17,11 @@ export class ChatOutcomeMessage extends Block {
     return `
     <div class="chat__outcome-message">
       <div class="chat__outcome-message__text">
-          <div class="message-text">Круто!</div>
+          <div class="message-text">{{message}}</div>
           <div class="message-status">
           <img src="/images/message-status.svg" alt="message status">
           </div>
-          <div class="message-date">12:00</div>
+          <div class="message-date">{{messageDate}}</div>
       </div>
     </div> 
     `;

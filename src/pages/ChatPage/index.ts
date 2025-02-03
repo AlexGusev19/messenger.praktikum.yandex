@@ -1,10 +1,10 @@
 import './chat.pcss';
 import Block from '../../framework/Block';
 import * as Components from '../../components';
-import { store } from '../../framework/Store';
 import { PagesList } from '../../types/Pages';
 import { ModalMode } from '../../components/Modal';
-import { chatController } from '../../controllers/chat-controller';
+import { userLoginController } from '../../controllers/user-login-controller';
+import { IChatProps } from '../../components/Chat';
 
 export interface IChatPage {}
 
@@ -36,15 +36,39 @@ export class ChatPage extends Block {
       Chat: new Components.Chat(),
     });
 
-    void chatController
-      .getChatList()
-      .then((resp) => console.log('getChatList', resp));
-    void chatController.getUsersForChat('46137');
-
-    void chatController.getChatToken('46137');
-
-    console.log({ store });
+    void userLoginController.getUserData();
   }
+
+  componentDidMount() {
+    this.setChildren({
+      ChatList: new Components.ChatList({
+        events: {
+          setChat: this.setChat,
+        },
+      }),
+    });
+
+    this.setChildren({
+      Chat: new Components.Chat({
+        events: {
+          setModal: this.setModal,
+        },
+      }),
+    });
+  }
+
+  setChat = (props: IChatProps) => {
+    this.setChildren({
+      Chat: new Components.Chat({ ...props }),
+    });
+  };
+
+  setModal = (mode: ModalMode) => {
+    this.setChildren({
+      Modal: new Components.Modal({ mode }),
+    });
+    this.children.Modal.show();
+  };
 
   render() {
     return `<main class="container">   
@@ -64,7 +88,8 @@ export class ChatPage extends Block {
                 </div>
                 <div class="chat__main">
                   {{{Chat}}}   
-                  {{{Modal}}}             
+                </div>
+                  {{{Modal}}}         
                 </main>
                 `;
   }

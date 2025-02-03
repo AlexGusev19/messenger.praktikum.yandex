@@ -1,7 +1,7 @@
-import { Indexed } from '../../../framework/Store';
+import { IStateStructure } from '../../../framework/Store';
 
-export function mapUserDataToProps(state: Indexed) {
+export function mapUserDataToProps(state: IStateStructure) {
   return {
-    firstName: state.user.first_name,
+    firstName: state.user?.first_name,
   };
 }

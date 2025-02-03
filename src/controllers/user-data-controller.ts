@@ -23,7 +23,7 @@ export class UserDataController {
     }
   }
 
-  public async updateUserAvatar(data) {
+  public async updateUserAvatar(data: FormData) {
     try {
       await userApi.updateUserAvatar(data);
       router.go(PagesList.profile);

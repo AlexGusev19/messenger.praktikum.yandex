@@ -9,14 +9,12 @@ interface IUserAvatarProps {
 
 export class UserAvatar extends Block {
   constructor(props: IUserAvatarProps) {
-    console.log({ store });
     super({
       imgAlt: 'user avatar',
       imgSrc: '/images/user-avatar.svg',
       events: {
         click: () => {
           props.callBack?.();
-          console.log('click', { c: this });
         },
       },
     });

@@ -30,13 +30,8 @@ export class UserAPI extends BaseAPI {
     return userAPIInstance.put('/password', { data });
   }
 
-  updateUserAvatar(data?) {
-    return userAPIInstance.put('/profile/avatar', {
-      data,
-      // headers: {
-      //   "Content-Type": "multipart/form-data",
-      // },
-    });
+  updateUserAvatar(data?: FormData) {
+    return userAPIInstance.put('/profile/avatar', { data });
   }
 
   searchUser(data: ISearchUser) {

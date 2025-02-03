@@ -1,18 +1,20 @@
 import { ChatAPI, ICreateChat } from '../api/chat-api';
-import { ISearchUser } from '../api/user-api';
+import { ISearchUser, UserAPI } from '../api/user-api';
+import { router } from '../framework/Router';
 import { store } from '../framework/Store';
+import { PagesList } from '../types/Pages';
 
 const chatApi = new ChatAPI();
+const userApi = new UserAPI();
 
 export class ChatController {
   public async getChatList() {
     try {
       await chatApi.request().then((resp) => {
-        const chats = JSON.parse(resp);
-        if (chats) {
+        const chats = JSON.parse(resp as unknown as string);
+        if (chats.length) {
           store.set('chats', chats);
-          store.set('currentChat', chats[0]);
-          console.log('store', { store });
+          if (!store.getState().currentChat) store.set('currentChat', chats[0]);
         }
       });
     } catch (error) {
@@ -22,9 +24,9 @@ export class ChatController {
 
   public async createChat(data: ICreateChat) {
     try {
-      await chatApi.create(data);
+      await chatApi.createChat(data);
       await this.getChatList();
-      console.log('createChat', store);
+      router.go(PagesList.chat);
     } catch (error) {
       throw new Error(error.message);
     }
@@ -40,49 +42,79 @@ export class ChatController {
     }
   }
 
-  public async addUserForChat(data: ISearchUser) {
+  public async addUserForChat(data: ISearchUser, chatId: string) {
     try {
+      
       await userApi
         .searchUser(data)
         .then((resp) => {
-          const [userData] = JSON.parse(resp);
+          const [userData] = JSON.parse(resp as unknown as string);
+          console.log('public async addUserForChat', { data, userData });
           return userData.id;
         })
         .then((id) => {
+
           const dataUserToChat = {
             users: [id],
-            chatId: '46137',
+            chatId,
           };
           void chatApi.addUserForChat(dataUserToChat);
         });
+      router.go(PagesList.chat);
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  public async removeUserForChat(data: ISearchUser) {
+  public async removeUserForChat(data: ISearchUser, chatId: string) {
     try {
       await userApi
         .searchUser(data)
         .then((resp) => {
-          const [userData] = JSON.parse(resp);
+          const [userData] = JSON.parse(resp as unknown as string);
           return userData.id;
         })
         .then((id) => {
           const dataRemoveUserFromChat = {
             users: [id],
-            chatId: '46137',
+            chatId,
           };
           void chatApi.removeUserForChat(dataRemoveUserFromChat);
         });
+      router.go(PagesList.chat);
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  public async getChatToken(id: string) {
+  public async getChatToken(chatID?: string) {
     try {
-      await chatApi.getChatToken(id).then((resp) => console.log(resp));
+      await this.getChatList();
+      const { currentChat, user, chats } = store.getState();
+      console.log('public async getChatToken', {
+        chatID,
+        currentChat: currentChat!.id,
+        user,
+        chats,
+      });
+
+      return await chatApi.getChatToken(currentChat!.id).then((resp) => {
+        const { token } = JSON.parse(resp as unknown as string);
+        return { token, userId: user!.id, chatId: currentChat!.id };
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  public async setCurrentChat(chatID: string) {
+    try {
+      await this.getChatList();
+      const { chats } = store.getState();
+
+      const currentChat = chats?.find((chat) => chat.id === chatID);
+      store.set('currentChat', currentChat);
+      return currentChat;
     } catch (error) {
       throw new Error(error.message);
     }

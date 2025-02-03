@@ -8,6 +8,7 @@ export class ChatAvatar extends Block {
       avatarSrc: '/images/user-blank-avatar.svg',
       avatarAlt: 'chat avatar',
     });
+    
 
     store.on(StoreEvents.Updated, () => {
       const { currentChat } = store.getState();

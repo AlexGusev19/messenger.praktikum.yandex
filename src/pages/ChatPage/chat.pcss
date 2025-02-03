@@ -132,6 +132,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  overflow: auto;
 
   & .chat__header {
     align-items: center;
@@ -240,6 +241,13 @@
   position: absolute;
   top: 20px;
   width: 100px;
+  border: 1px solid var(--line-color);
+
+  & .dropdown-menu__button {
+    background-color: var(--background-color);
+    padding: 10px;
+    border: 1px solid var(--line-color);
+  }
 }
 
 .dropdown:hover .dropdown__content {

@@ -1,3 +1,6 @@
+import { router } from '../framework/Router';
+import { PagesList } from '../types/Pages';
+
 enum METHOD {
   GET = 'GET',
   POST = 'POST',
@@ -16,7 +19,7 @@ interface IOptions {
   withCredentials?: boolean;
 }
 
-type TRequest = (url: string, options: IOptions) => Promise<XMLHttpRequest>;
+type TRequest = (url: string, options?: IOptions) => Promise<XMLHttpRequest>;
 
 export class HTTPTransport {
   basePath: string;
@@ -50,11 +53,12 @@ export class HTTPTransport {
       data,
       timeout = 5000,
       withCredentials = true,
-    } = options;  
+    } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       const isGet = method === METHOD.GET;
+      const isFormData = data instanceof FormData;
 
       xhr.open(
         method,
@@ -65,12 +69,22 @@ export class HTTPTransport {
           : `${HOST}${this.basePath}${url}`,
       );
 
-      Object.keys(headers).forEach((key) => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
+      if (!isFormData) {
+        Object.keys(headers).forEach((key) => {
+          xhr.setRequestHeader(key, headers[key]);
+        });
+      }
 
       xhr.onload = function () {
-        resolve(xhr.response);
+        if (xhr.status === 200) {
+          resolve(xhr.response);
+        } else if (xhr.status === 401) {
+          router.go(PagesList.login);
+        } else if (xhr.status === 404) {
+          router.go(PagesList.clientError);
+        } else if (xhr.status === 500) {
+          router.go(PagesList.serverError);
+        }        
       };
 
       xhr.onabort = reject;
@@ -82,7 +96,7 @@ export class HTTPTransport {
 
       if (method === METHOD.GET || !data) {
         xhr.send();
-      } else if (data instanceof FormData) {
+      } else if (isFormData) {
         xhr.send(data);
       } else {
         xhr.send(JSON.stringify(data));

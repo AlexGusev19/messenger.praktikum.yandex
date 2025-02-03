@@ -10,6 +10,11 @@ export interface IAddUser {
   chatId: number;
 }
 
+export interface IDataUserToChat {
+  users: string[];
+  chatId: string;
+}
+
 const chatAPIInstance = new HTTPTransport('api/v2/chats');
 
 export class ChatAPI extends BaseAPI {
@@ -21,15 +26,15 @@ export class ChatAPI extends BaseAPI {
     return chatAPIInstance.get(`/${id}/users`);
   }
 
-  addUserForChat(data) {
+  addUserForChat(data: IDataUserToChat) {
     return chatAPIInstance.put('/users', { data });
   }
 
-  removeUserForChat(data) {
+  removeUserForChat(data: IDataUserToChat) {
     return chatAPIInstance.delete('/users', { data });
   }
 
-  create(data: ICreateChat) {
+  createChat(data: ICreateChat) {
     return chatAPIInstance.post('/', { data });
   }
 

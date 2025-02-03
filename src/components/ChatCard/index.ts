@@ -13,13 +13,11 @@ export class ChatCard extends Block {
   chatId: string;
 
   constructor(props: IChatCard) {
-    console.log({ props });
     super({
       ...props,
       events: {
-        click: (event: Event) => {
+        click: () => {
           props.events?.click();
-          console.log('ChatCard click', this.chatId, { event });
         },
       },
     });
