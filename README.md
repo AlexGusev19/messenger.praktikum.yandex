@@ -16,7 +16,6 @@ prod мод: `npm run start`
 
 - [дизайн figma](https://www.figma.com/design/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0-1&node-type=canvas&t=5NbbckirUfHKFsU3-0)
 - [деплой netlify](https://messenger-yandex-practikum.netlify.app/)
-- при старте приложения открывается заглушка меню с ссылками на все страницы
 
 ## Инструменты
 

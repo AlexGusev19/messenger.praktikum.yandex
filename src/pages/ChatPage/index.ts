@@ -1,6 +1,10 @@
 import './chat.pcss';
 import Block from '../../framework/Block';
 import * as Components from '../../components';
+import { PagesList } from '../../types/Pages';
+import { ModalMode } from '../../components/Modal';
+import { userLoginController } from '../../controllers/user-login-controller';
+import { IChatProps } from '../../components/Chat';
 
 export interface IChatPage {}
 
@@ -8,119 +12,85 @@ export class ChatPage extends Block {
   constructor(props: IChatPage) {
     super({
       ...props,
-      profileLink: new Components.Link({
-        dataPage: 'profile',
+      ProfileLink: new Components.Link({
+        href: PagesList.profile,
         text: 'Профиль >',
         className: 'profile-link',
       }),
-      searchInput: new Components.Input({
+      AddChatButton: new Components.Button({
+        text: 'Добавить чат',
+        events: {
+          click: () => {
+            this.children.Modal.show();
+          },
+        },
+      }),
+      SearchInput: new Components.Input({
         className: 'chat__left-side__search__control',
         type: 'search',
         placeholder: 'Поиск',
         name: 'search',
       }),
-      chatAvatar: new Components.ChatAvatar({
-        chatName: 'Вадим',
-        avatarSrc: '/images/user-blank-avatar.svg',
-        avatarAlt: 'chat avatar',
+      Modal: new Components.Modal({ mode: ModalMode.AddChat }),
+      ChatList: new Components.ChatList(),
+      Chat: new Components.Chat(),
+    });
+
+    void userLoginController.getUserData();
+  }
+
+  componentDidMount() {
+    this.setChildren({
+      ChatList: new Components.ChatList({
+        events: {
+          setChat: this.setChat,
+        },
       }),
-      menuButton: new Components.ImageButton({
-        imgSrc: '/images/menu-chat.svg',
-        imgAlt: 'chat menu',
-      }),
-      addFileButton: new Components.ImageButton({
-        imgSrc: '/images/add-file.svg',
-        imgAlt: 'add file',
-      }),
-      sendInput: new Components.Input({
-        className: 'chat__input',
-        type: 'text',
-        placeholder: 'Сообщение',
-        name: 'message',
-      }),
-      sendButton: new Components.ImageButton({
-        imgSrc: '/images/right-arrow-button.svg',
-        imgAlt: 'send',
+    });
+
+    this.setChildren({
+      Chat: new Components.Chat({
+        events: {
+          setModal: this.setModal,
+        },
       }),
     });
   }
 
+  setChat = (props: IChatProps) => {
+    this.setChildren({
+      Chat: new Components.Chat({ ...props }),
+    });
+  };
+
+  setModal = (mode: ModalMode) => {
+    this.setChildren({
+      Modal: new Components.Modal({ mode }),
+    });
+    this.children.Modal.show();
+  };
+
   render() {
-    return `<main class="container">
+    return `<main class="container">   
                 <div class="chat__left-side">
                     <div class="chat__left-side__header">
-                    {{{profileLink}}}
+                      {{{ProfileLink}}}
                     </div>
+                    <div class="chat__left-side__add-chat">
+                      {{{AddChatButton}}}
+                    </div>                    
                     <div class="chat__left-side__search">
-                    {{{searchInput}}}
+                    {{{SearchInput}}}
                     </div>
-                    <div class="chat__left-side__footer">
-                    <div class="chat__left-side__chat-list">
-
-                        <div class="chat-card">
-                        <img src="/images/chat-avatar.svg" alt="chat avatar">
-                        <div class="chat-card__right-side">
-                            <div class="chat-card__header">
-                            <span class="chat-card__title">Андрей</span>
-                            <span class="chat-card__date">10:49</span>
-                            </div>
-                            <div class="chat-card__content">
-                            <div class="chat-card__short-text">
-                                Так увлёкся работой по курсу, что совсем забыл его анонсир...
-                            </div>
-                            <div class="chat-card__badge">
-                                <div class="badge">2</div>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-
-                    </div>
+                    <div class="chat__left-side__footer">               
+                      {{{ChatList}}}                 
                     </div>
                 </div>
                 <div class="chat__main">
-                    <div class="chat__main__container">
-                    <div class="chat__main__container__header">
-                        {{{chatAvatar}}}
-                        {{{menuButton}}}
-                    </div>
-
-                    <div class="chat__main__container__content">
-                        <div class="chat__header">
-                        17 декабря
-                        </div>
-                        <div class="chat__income-message">
-                        <div class="chat__income-message__text">
-                            <p>Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.</p>
-                            <br>
-                            <p>Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000 евро.</p>          
-                            <div class="chat__income-message__date">11:56</div>  
-                        </div>
-                        <div class="chat__income-message__img">
-                            <img src="/images/Снимок экрана 2020-06-21 в 19.18 1.svg" alt="Снимок экрана">
-                        </div>
-                        </div>
-                        <div class="chat__outcome-message">
-                        <div class="chat__outcome-message__text">
-                            <div class="message-text">Круто!</div>
-                            <div class="message-status">
-                            <img src="/images/message-status.svg" alt="message status">
-                            </div>
-                            <div class="message-date">12:00</div>
-                        </div>
-                        </div>  
-                    </div>
-
-                    <div class="chat__main__container__footer">
-                        <form class="chat__main__container__control">
-                            {{{addFileButton}}}
-                            {{{sendInput}}}
-                            {{{sendButton}}}
-                        </form>
-                    </div>
-                    </div>
+                  {{{Chat}}}   
                 </div>
-                </main>`;
+                  {{{Modal}}}         
+                </main>
+                `;
   }
 }
-
