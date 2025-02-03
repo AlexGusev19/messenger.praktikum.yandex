@@ -80,6 +80,8 @@ export class HTTPTransport {
           resolve(xhr.response);
         } else if (xhr.status === 401) {
           router.go(PagesList.login);
+        } else if (xhr.status === 400) {
+          router.go(PagesList.chat);        
         } else if (xhr.status === 404) {
           router.go(PagesList.clientError);
         } else if (xhr.status === 500) {

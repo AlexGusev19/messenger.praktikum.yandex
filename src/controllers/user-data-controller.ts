@@ -10,7 +10,7 @@ export class UserDataController {
       await userApi.updateData(data);
       router.go(PagesList.profile);
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка обновления данных пользователя', error.message);
     }
   }
 
@@ -19,7 +19,7 @@ export class UserDataController {
       await userApi.updatePassword(data);
       router.go(PagesList.profile);
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка обновления пароля пользователя', error.message);
     }
   }
 
@@ -28,7 +28,7 @@ export class UserDataController {
       await userApi.updateUserAvatar(data);
       router.go(PagesList.profile);
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка обновления аватара пользователя', error.message);
     }
   }
 }

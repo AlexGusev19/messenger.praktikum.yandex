@@ -11,7 +11,8 @@ export class UserLoginController {
       await loginApi.request(data);
       router.go(PagesList.chat);
     } catch (error) {
-      throw new Error(error.message);
+      if (error.reason === 'User already in system') router.go(PagesList.chat);
+      console.error('Ошибка входа', error.message);
     }
   }
 
@@ -20,7 +21,7 @@ export class UserLoginController {
       await loginApi.logout();
       router.go(PagesList.login);
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка выхода', error.message);
     }
   }
 
@@ -29,7 +30,7 @@ export class UserLoginController {
       await loginApi.create(data);
       router.go(PagesList.chat);
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка создания аккаунта', error.message);
     }
   }
 
@@ -39,7 +40,7 @@ export class UserLoginController {
         store.set('user', JSON.parse(resp as unknown as string));
       });
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка получения данных пользователя', error.message);
     }
   }
 }

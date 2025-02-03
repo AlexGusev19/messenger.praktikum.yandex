@@ -18,7 +18,7 @@ export class ChatController {
         }
       });
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка получения списка чатов', error.message);
     }
   }
 
@@ -28,7 +28,7 @@ export class ChatController {
       await this.getChatList();
       router.go(PagesList.chat);
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка создания чата', error.message);
     }
   }
 
@@ -38,13 +38,15 @@ export class ChatController {
         .requestUsersForChat(id)
         .then((resp) => console.log('getUsersForChat', resp));
     } catch (error) {
-      throw new Error(error.message);
+      console.error(
+        'Ошибка получения списка пользователей чата',
+        error.message,
+      );
     }
   }
 
   public async addUserForChat(data: ISearchUser, chatId: string) {
     try {
-      
       await userApi
         .searchUser(data)
         .then((resp) => {
@@ -53,7 +55,6 @@ export class ChatController {
           return userData.id;
         })
         .then((id) => {
-
           const dataUserToChat = {
             users: [id],
             chatId,
@@ -62,7 +63,7 @@ export class ChatController {
         });
       router.go(PagesList.chat);
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка добавления пользователя в чат', error.message);
     }
   }
 
@@ -83,7 +84,7 @@ export class ChatController {
         });
       router.go(PagesList.chat);
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка удаления пользователя из чат', error.message);
     }
   }
 
@@ -103,7 +104,7 @@ export class ChatController {
         return { token, userId: user!.id, chatId: currentChat!.id };
       });
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка получения токена для чата', error.message);
     }
   }
 
@@ -116,7 +117,7 @@ export class ChatController {
       store.set('currentChat', currentChat);
       return currentChat;
     } catch (error) {
-      throw new Error(error.message);
+      console.error('Ошибка добавления текущего чата', error.message);
     }
   }
 }
