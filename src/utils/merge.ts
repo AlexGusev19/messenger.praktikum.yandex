@@ -1,6 +1,4 @@
-export type Indexed<T = unknown> = {
-  [key in string]: T;
-};
+import { Indexed } from '../framework/Store';
 
 function merge(lhs: Indexed, rhs: Indexed): Indexed {
   for (const p in rhs) {

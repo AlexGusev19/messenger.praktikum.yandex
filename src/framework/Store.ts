@@ -5,6 +5,10 @@ export enum StoreEvents {
   Updated = 'updated',
 }
 
+export type Indexed<T = unknown> = {
+  [key in string]: T;
+};
+
 export interface IUserStructure {
   id: string;
   first_name: string;
@@ -50,7 +54,7 @@ export class Store extends EventBus {
   }
 
   public set(path: string, value: unknown) {
-    set(this.state, path, value);
+    set(this.state as Indexed, path, value);
 
     this.emit(StoreEvents.Updated);
   }

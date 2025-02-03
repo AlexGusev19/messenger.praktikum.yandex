@@ -1,4 +1,5 @@
-import merge, { Indexed } from './merge';
+import { Indexed } from '../framework/Store';
+import merge from './merge';
 
 function set(object: Indexed, path: string, value: unknown): Indexed {
   if (typeof path !== 'string') throw new Error('path must be string');
