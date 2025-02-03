@@ -21,7 +21,7 @@ export class ChatPage extends Block {
         text: 'Добавить чат',
         events: {
           click: () => {
-            this.children.Modal.show();
+            this.setModal(ModalMode.AddChat);
           },
         },
       }),
@@ -32,8 +32,6 @@ export class ChatPage extends Block {
         name: 'search',
       }),
       Modal: new Components.Modal({ mode: ModalMode.AddChat }),
-      ChatList: new Components.ChatList(),
-      Chat: new Components.Chat(),
     });
 
     void userLoginController.getUserData();
@@ -44,13 +42,6 @@ export class ChatPage extends Block {
       ChatList: new Components.ChatList({
         events: {
           setChat: this.setChat,
-        },
-      }),
-    });
-
-    this.setChildren({
-      Chat: new Components.Chat({
-        events: {
           setModal: this.setModal,
         },
       }),
@@ -63,9 +54,9 @@ export class ChatPage extends Block {
     });
   };
 
-  setModal = (mode: ModalMode) => {
+  setModal = (mode: ModalMode, chatID?: string) => {
     this.setChildren({
-      Modal: new Components.Modal({ mode }),
+      Modal: new Components.Modal({ mode, chatID }),
     });
     this.children.Modal.show();
   };

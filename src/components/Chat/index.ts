@@ -4,7 +4,6 @@ import { chatController } from '../../controllers/chat-controller';
 import { WebSocketTransport } from '../../api/WebSocket';
 import { getTime } from '../ChatList';
 import { ModalMode } from '../Modal';
-import { store } from '../../framework/Store';
 
 export interface IChatProps {
   chatID?: string;
@@ -58,7 +57,7 @@ export class Chat extends Block {
         events: {
           click: () => {
             if (!this._chatID) return;
-            this.openModal(ModalMode.AddUserToChat);
+            props?.events?.setModal(ModalMode.AddUserToChat, this._chatID);
           },
         },
       }),
@@ -68,11 +67,10 @@ export class Chat extends Block {
         events: {
           click: () => {
             if (!this._chatID) return;
-            this.openModal(ModalMode.RemoveUserFromChat);
+            props?.events?.setModal(ModalMode.RemoveUserFromChat, this._chatID);
           },
         },
       }),
-      ChatModal: new Components.Modal({ mode: ModalMode.AddUserToChat }),
     });
 
     this._chatID = props?.chatID;
@@ -80,45 +78,49 @@ export class Chat extends Block {
     void this.connectToChat();
   }
 
-  openModal = (mode: ModalMode) => {
-    console.log({ chatID: this._chatID }, store.getState());
-    this.setChildren({
-      ChatModal: new Components.Modal({ mode, chatID: this._chatID }),
-    });
-    this.children.ChatModal.show();
-  };
-
   async connectToChat() {
     if (!this._chatID) return;
+    const result = await chatController.getChatToken();
 
-    const { token, userId, chatId } = await chatController.getChatToken();
-    this._WebSocketInstance = new WebSocketTransport(userId, chatId, token);
+    if (!result) return;
+    this._WebSocketInstance = new WebSocketTransport(
+      result.userId,
+      result.chatId,
+      result.token,
+    );
 
     this._WebSocketInstance.socket.addEventListener('message', (event) => {
-      const message = JSON.parse(event.data);
+      try {
+        const message = JSON.parse(event.data);
 
-      if (message.content) {
-        const currentMessages = this.lists.ChatMessages;
-        currentMessages.push(
-          new Components.ChatOutcomeMessage({
-            message: message.content,
-            messageDate: getTime(message.time),
-          }),
+        if (message.content) {
+          const currentMessages = this.lists.ChatMessages;
+          currentMessages.push(
+            new Components.ChatOutcomeMessage({
+              message: message.content,
+              messageDate: getTime(message.time),
+            }),
+          );
+
+          this.setLists({
+            ChatMessages: currentMessages,
+          });
+        } else if (Array.isArray(message)) {
+          this.setLists({
+            ChatMessages: message.reverse().map(
+              (item) =>
+                new Components.ChatOutcomeMessage({
+                  message: item.content,
+                  messageDate: getTime(item.time),
+                }),
+            ),
+          });
+        }
+      } catch (error) {
+        console.error(
+          'Ошибка при получении сообщений по WebSocket',
+          error.message,
         );
-
-        this.setLists({
-          ChatMessages: currentMessages,
-        });
-      } else if (Array.isArray(message)) {
-        this.setLists({
-          ChatMessages: message.reverse().map(
-            (item) =>
-              new Components.ChatOutcomeMessage({
-                message: item.content,
-                messageDate: getTime(item.time),
-              }),
-          ),
-        });
       }
     });
   }
@@ -149,8 +151,7 @@ export class Chat extends Block {
                 {{{SendInput}}}
                 {{{SendButton}}}
             </form>
-        </div>  
-            {{{ChatModal}}}             
+        </div>   
         </div>             
       </div>`;
   }

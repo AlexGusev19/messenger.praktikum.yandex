@@ -14,7 +14,7 @@ export class ChatController {
         const chats = JSON.parse(resp as unknown as string);
         if (chats.length) {
           store.set('chats', chats);
-          if (!store.getState().currentChat) store.set('currentChat', chats[0]);
+          // if (!store.getState().currentChat) store.set('currentChat', chats[0]);
         }
       });
     } catch (error) {
@@ -25,7 +25,6 @@ export class ChatController {
   public async createChat(data: ICreateChat) {
     try {
       await chatApi.createChat(data);
-      await this.getChatList();
       router.go(PagesList.chat);
     } catch (error) {
       console.error('Ошибка создания чата', error.message);
@@ -51,7 +50,7 @@ export class ChatController {
         .searchUser(data)
         .then((resp) => {
           const [userData] = JSON.parse(resp as unknown as string);
-          console.log('public async addUserForChat', { data, userData });
+
           return userData.id;
         })
         .then((id) => {
@@ -88,19 +87,14 @@ export class ChatController {
     }
   }
 
-  public async getChatToken(chatID?: string) {
+  public async getChatToken() {
     try {
       await this.getChatList();
-      const { currentChat, user, chats } = store.getState();
-      console.log('public async getChatToken', {
-        chatID,
-        currentChat: currentChat!.id,
-        user,
-        chats,
-      });
+      const { currentChat, user } = store.getState();
 
       return await chatApi.getChatToken(currentChat!.id).then((resp) => {
         const { token } = JSON.parse(resp as unknown as string);
+        
         return { token, userId: user!.id, chatId: currentChat!.id };
       });
     } catch (error) {

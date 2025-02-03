@@ -9,11 +9,12 @@ export class UserLoginController {
   public async login(data: ISignin) {
     try {
       await loginApi.request(data);
-      router.go(PagesList.chat);
+      return router.go(PagesList.chat);
     } catch (error) {
       if (error.reason === 'User already in system') router.go(PagesList.chat);
-      console.error('Ошибка входа', error.message);
+      console.error('Ошибка входа', error.reason);
     }
+  
   }
 
   public async logout() {
