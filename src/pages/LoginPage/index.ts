@@ -1,7 +1,7 @@
 import './login.pcss';
 import Block from '../../framework/Block';
 import * as Components from '../../components';
-import {  router } from '../../framework/Router';
+import { router } from '../../framework/Router';
 import { userLoginController } from '../../controllers/user-login-controller';
 import { ISignin, ISignup } from '../../api/login-api';
 import { PagesList } from '../../types/Pages';
@@ -99,13 +99,13 @@ export class LoginPage extends Block {
 
   onFormButtonClick = (form: HTMLFormElement) => {
     if (this._currentPath === PagesList.login) {
-      void userLoginController
-        .login(getFormDataToConsole(form) as unknown as ISignin)
-        .then((response) => console.log({ response }));
+      void userLoginController.login(
+        getFormDataToConsole(form) as unknown as ISignin,
+      );
     } else if (this._currentPath === PagesList.registration) {
-      void userLoginController
-        .createAccount(getFormDataToConsole(form) as unknown as ISignup)
-        .then((response) => console.log({ response }));
+      void userLoginController.createAccount(
+        getFormDataToConsole(form) as unknown as ISignup,
+      );
     }
   };
 

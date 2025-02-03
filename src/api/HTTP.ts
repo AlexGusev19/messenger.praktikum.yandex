@@ -1,6 +1,3 @@
-import { router } from '../framework/Router';
-import { PagesList } from '../types/Pages';
-
 enum METHOD {
   GET = 'GET',
   POST = 'POST',
@@ -78,13 +75,13 @@ export class HTTPTransport {
       xhr.onload = function () {
         if (xhr.status === 200) {
           resolve(xhr.response);
-        } else if (xhr.status === 401) {
-          router.go(PagesList.login);
-        } else if (xhr.status === 404) {
-          router.go(PagesList.clientError);
-        } else if (xhr.status === 500) {
-          router.go(PagesList.serverError);
-        }        
+        } else {
+          const response = JSON.parse(xhr.response);
+          reject({
+            status: xhr.status,
+            errorMessage: response.reason,
+          });
+        }
       };
 
       xhr.onabort = reject;

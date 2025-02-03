@@ -44,7 +44,9 @@ export class ChatList extends Block {
                   click: () => {
                     console.log({ chatID: chat.id });
                     void chatController.setCurrentChat(chat.id);
-                    props?.events?.setChat({ chatID: chat.id });
+                    props?.events?.setChat({ chatID: chat.id, events: {
+                      setModal: props.events.setModal,
+                    } });
                   },
                 },
               }),

@@ -103,14 +103,12 @@ export class Modal extends Block {
                 props.chatID!,
               );
               void chatController.setCurrentChat(props.chatID!);
-              void chatController.getUsersForChat(props.chatID!);
             } else if (props.mode === ModalMode.RemoveUserFromChat) {
               void chatController.removeUserForChat(
                 getFormDataToConsole(form!) as unknown as ISearchUser,
                 props.chatID!,
               );
               void chatController.setCurrentChat(props.chatID!);
-              void chatController.getUsersForChat(props.chatID!);
             }
             
           },
