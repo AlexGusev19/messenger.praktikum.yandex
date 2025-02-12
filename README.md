@@ -26,3 +26,5 @@ prod мод: `npm run start`
 - stylelint
 - uuid
 - handlebars
+- jest
+- husky
