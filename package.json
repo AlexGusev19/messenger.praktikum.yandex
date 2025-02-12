@@ -23,7 +23,7 @@
     "test": "jest",
     "prepare": "husky",
     "typecheck": "tsc --noEmit",
-    "precommit": "npm run lint & npm run lint:style & npm run typecheck & npm run test"
+    "precommit": "npm run lint && npm run lint:style && npm run typecheck && npm run test"
   },
   "author": "Alexandr Gusev",
   "devDependencies": {
