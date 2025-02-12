@@ -20,7 +20,8 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:style": "stylelint \"**/*.pcss\"",
     "lint:style:fix": "stylelint \"**/*.pcss\" --fix",
-    "test": "jest",
+    "jest": "jest", 
+    "test": "npm run lint & npm run lint:style & npm run jest",
     "prepare": "husky"
   },
   "author": "Alexandr Gusev",
