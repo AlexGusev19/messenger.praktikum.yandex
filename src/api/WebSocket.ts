@@ -1,7 +1,7 @@
 const WSHost = 'wss://ya-praktikum.tech';
 
 export class WebSocketTransport {
-  intervalID: number;
+  intervalID: NodeJS.Timeout;
 
   socket: WebSocket;
 
