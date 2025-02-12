@@ -1,9 +1,15 @@
 export { Link } from './Link/';
 export { Button } from './Button/';
 export { Input } from './Input/';
+export { InputBase } from './InputBase/';
 export { ImageButton } from './ImageButton/';
 export { ChatAvatar } from './ChatAvatar/';
+export { ChatCard } from './ChatCard';
 export { ErrorMessage } from './ErrorMessage/';
 export { ImageLink } from './ImageLink/';
 export { UserAvatar } from './UserAvatar/';
 export { UserProfileDataRow } from './UserProfileDataRow/';
+export { Modal } from './Modal/';
+export { ChatOutcomeMessage } from './ChatOutcomeMessage/';
+export { ChatList } from './ChatList/';
+export { Chat } from './Chat/';

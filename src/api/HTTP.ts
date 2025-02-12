@@ -6,16 +6,25 @@ enum METHOD {
   DELETE = 'DELETE',
 }
 
+export const HOST = 'https://ya-praktikum.tech/';
+
 interface IOptions {
-  method: METHOD;
+  method?: METHOD;
   headers?: Record<string, string>;
-  data?: Record<string, string>;
+  data?: unknown;
   timeout?: number;
+  withCredentials?: boolean;
 }
 
-type TRequest = (url: string, options: IOptions) => Promise<XMLHttpRequest>;
+type TRequest = (url: string, options?: IOptions) => Promise<XMLHttpRequest>;
 
-class HTTPTransport {
+export class HTTPTransport {
+  basePath: string;
+
+  constructor(path: string) {
+    this.basePath = path;
+  }
+
   get: TRequest = (url, options) => {
     return this.request(url, { ...options, method: METHOD.GET });
   };
@@ -24,7 +33,7 @@ class HTTPTransport {
     return this.request(url, { ...options, method: METHOD.PUT });
   };
 
-  post: TRequest = (url: string, options: IOptions) => {
+  post: TRequest = (url: string, options?: IOptions) => {
     return this.request(url, { ...options, method: METHOD.POST });
   };
 
@@ -33,33 +42,59 @@ class HTTPTransport {
   };
 
   request(url: string, options: IOptions): Promise<XMLHttpRequest> {
-    const { headers = {}, method, data, timeout = 5000 } = options;
+    const {
+      headers = {
+        'Content-Type': 'application/json',
+      },
+      method = METHOD.GET,
+      data,
+      timeout = 5000,
+      withCredentials = true,
+    } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       const isGet = method === METHOD.GET;
+      const isFormData = data instanceof FormData;
 
       xhr.open(
         method,
-        isGet && !!data ? `${url}${this.queryStringify(data)}` : url,
+        isGet && !!data
+          ? `${HOST}${this.basePath}${url}${this.queryStringify(
+            data as Record<string, string>,
+          )}`
+          : `${HOST}${this.basePath}${url}`,
       );
 
-      Object.keys(headers).forEach((key) => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
+      if (!isFormData) {
+        Object.keys(headers).forEach((key) => {
+          xhr.setRequestHeader(key, headers[key]);
+        });
+      }
 
       xhr.onload = function () {
-        resolve(xhr);
+        if (xhr.status === 200) {
+          resolve(xhr.response);
+        } else {
+          const response = JSON.parse(xhr.response);
+          reject({
+            status: xhr.status,
+            errorMessage: response.reason,
+          });
+        }
       };
 
       xhr.onabort = reject;
       xhr.onerror = reject;
+      xhr.withCredentials = withCredentials;
 
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
 
       if (method === METHOD.GET || !data) {
         xhr.send();
+      } else if (isFormData) {
+        xhr.send(data);
       } else {
         xhr.send(JSON.stringify(data));
       }
@@ -78,5 +113,3 @@ class HTTPTransport {
     }, '?');
   }
 }
-
-export const api = new HTTPTransport();

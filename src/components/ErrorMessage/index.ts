@@ -1,6 +1,7 @@
 import './style.pcss';
 import Block from '../../framework/Block';
 import { Link } from '../Link';
+import { PagesList } from '../../types/Pages';
 
 interface IErrorMessageProps {
   errorStatus: string;
@@ -12,7 +13,7 @@ export class ErrorMessage extends Block {
     super({
       ...props,
       BackLink: new Link({
-        dataPage: 'chat',
+        href: PagesList.chat,
         text: 'Назад к чатам',
         className: 'link-component',
       }),
