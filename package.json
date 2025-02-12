@@ -20,10 +20,10 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "lint:style": "stylelint \"**/*.pcss\"",
     "lint:style:fix": "stylelint \"**/*.pcss\" --fix",
-    "test": "jest",
-    "prepare": "husky",
+    "test": "jest",    
     "typecheck": "tsc --noEmit",
-    "precommit": "npm run lint && npm run lint:style && npm run typecheck && npm run test"
+    "precommit": "npm run lint && npm run lint:style && npm run typecheck && npm run test",
+    "prepare": "husky"
   },
   "author": "Alexandr Gusev",
   "devDependencies": {
